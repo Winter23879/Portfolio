@@ -7,25 +7,23 @@
   <meta name="description" content="Winter — Creative Director · UI/UX Designer · Video Editor · Web Developer. Crafting elegant digital experiences that live at the intersection of art and technology.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400;1,600&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Josefin+Sans:wght@100;300;400;600&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Trimmed to only used weights — saves ~60% of font payload -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,900;1,400&family=Cormorant+Garamond:ital,wght@1,300&family=Bebas+Neue&family=DM+Sans:wght@300;400&family=DM+Mono:wght@300;400&family=Josefin+Sans:wght@300;400;600&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <!-- Preload LCP image (front card, above the fold) so it fetches in parallel with CSS -->
+  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=480&h=620&fit=crop&q=80">
+
 </head>
 <body>
 
-  <!-- Film Grain Overlay -->
-  <div class="grain" aria-hidden="true"></div>
+  <!-- Lightsaber Scroll Progress Bar -->
+  <div class="saber-bar" id="saberBar" aria-hidden="true">
+    <div class="saber-fill" id="saberFill"></div>
+    <div class="saber-tip"  id="saberTip"></div>
+  </div>
 
   <div class="cursor-dot" id="cursorDot"></div>
   <div class="cursor-ring" id="cursorRing"><span class="cursor-text" id="cursorText"></span></div>
-
-  <!-- Blob Background -->
-  <div class="blob-bg" aria-hidden="true">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
-    <div class="blob blob-4"></div>
-    <div class="blob blob-5"></div>
-  </div>
 
   <!-- Navbar -->
   <nav class="navbar" id="navbar">
@@ -51,26 +49,55 @@
         <span class="hero-line reveal-item">WIN</span>
         <span class="hero-line italic reveal-item">TER.</span>
       </h1>
-      <p class="hero-sub reveal-item">
-        UI/UX Design &nbsp;·&nbsp; Video Production &nbsp;·&nbsp; Web Development
-      </p>
+      <div class="hero-expertise">
+        <div class="expertise-item reveal-item">
+          <span class="exp-num">01</span>
+          <div class="exp-text">
+            <h4>Video Production</h4>
+            <p>Cinematic storytelling through expert motion & color.</p>
+          </div>
+        </div>
+        <div class="expertise-item reveal-item">
+          <span class="exp-num">02</span>
+          <div class="exp-text">
+            <h4>UI/UX Design</h4>
+            <p>Building intuitive and elegant digital interfaces.</p>
+          </div>
+        </div>
+        <div class="expertise-item reveal-item">
+          <span class="exp-num">03</span>
+          <div class="exp-text">
+            <h4>Web Development</h4>
+            <p>Merging code and art for seamless experiences.</p>
+          </div>
+        </div>
+      </div>
       <a href="#works" class="hero-cta reveal-item">
         <span>View My Work</span>
         <span class="cta-arrow">↓</span>
       </a>
     </div>
-    <!-- Hero Deco -->
-    <div class="hero-deco" aria-hidden="true">
-      <div class="deco-rings">
-        <div class="deco-ring r1"></div>
-        <div class="deco-ring r2"></div>
-        <div class="deco-ring r3"></div>
-        <div class="deco-plus">+</div>
+    <!-- Hero Deco — Floating Card Stack -->
+    <div class="hero-deco" aria-hidden="false">
+      <div class="card-stack" id="cardStack">
+        <a href="#works" class="stack-card card-back" tabindex="-1">
+          <!-- lazy: not visible until fanned out -->
+          <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=480&h=620&fit=crop&q=80" alt="Motion Reel" loading="lazy">
+          <div class="stack-label"><span>Video</span><span>2024</span></div>
+        </a>
+        <a href="#works" class="stack-card card-mid" tabindex="-1">
+          <!-- lazy: behind the front card -->
+          <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=480&h=620&fit=crop&q=80" alt="E-Commerce Platform" loading="lazy">
+          <div class="stack-label"><span>Web Dev</span><span>2024</span></div>
+        </a>
+        <a href="#works" class="stack-card card-front" tabindex="-1">
+          <!-- eager + high priority: this is the LCP element (top card, above the fold) -->
+          <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=480&h=620&fit=crop&q=80" alt="Brand Identity" loading="eager" fetchpriority="high">
+          <div class="stack-label"><span>Design</span><span>2024</span></div>
+        </a>
+        <!-- Hover hint -->
+        <div class="stack-hint" aria-hidden="true">hover to explore</div>
       </div>
-      <svg class="deco-orbit" viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg">
-        <defs><path id="op" d="M 170,55 A 115,115 0 1,1 170,285 A 115,115 0 1,1 170,55"/></defs>
-        <text><textPath href="#op" startOffset="0%">AVAILABLE FOR WORK · 2025 · NELLORE, INDIA · CREATIVE DIRECTOR · </textPath></text>
-      </svg>
       <div class="deco-stats">
         <div class="deco-stat"><span class="dsn">20+</span><span class="dsl">Projects</span></div>
         <div class="dsdiv"></div>
@@ -93,25 +120,44 @@
       <blockquote class="about-quote reveal-item">
         "I craft digital experiences that live at the intersection<br>of art &amp; technology."
       </blockquote>
-      <div class="about-body">
-        <p class="reveal-item">
-          I'm a multidisciplinary creative based in <em>Nellore, Andhra Pradesh</em> — a rare hybrid of designer,
-          developer, and visual storyteller. I work at the intersection of motion, code, and user experience
-          to create work that doesn't just look good — it <em>feels</em> right.
-        </p>
-        <p class="reveal-item">
-          With expertise spanning video production, interface design, and front-end development,
-          I bring a holistic perspective to every project. Every pixel has purpose. Every frame tells a story.
-        </p>
-        <div class="about-skills reveal-item">
-          <span class="skill">After Effects</span>
-          <span class="skill">Premiere Pro</span>
-          <span class="skill">Figma</span>
-          <span class="skill">React</span>
-          <span class="skill">GSAP</span>
-          <span class="skill">HTML / CSS / JS</span>
-          <span class="skill">Photoshop</span>
-          <span class="skill">Illustrator</span>
+      
+      <div class="about-grid">
+        <!-- Crazy Amazing Picture Container -->
+        <div class="about-img-wrap reveal-item" id="aboutImgWrap" data-cursor="VIEW">
+          <div class="about-img-frame" id="aboutImgFrame">
+            <div class="about-img-glow"></div>
+            <img src="assets/Me.png" alt="Winter" class="about-img" loading="lazy">
+            <div class="about-img-overlay"></div>
+            <div class="about-scanner"></div>
+            <!-- Futuristic corner brackets -->
+            <div class="frame-corner top-left"></div>
+            <div class="frame-corner top-right"></div>
+            <div class="frame-corner bottom-left"></div>
+            <div class="frame-corner bottom-right"></div>
+          </div>
+          <div class="about-img-badge"><span>FOUNDER / CD</span></div>
+        </div>
+
+        <div class="about-body">
+          <p class="reveal-item">
+            I'm a multidisciplinary creative based in <em>Nellore, Andhra Pradesh</em> — a rare hybrid of designer,
+            developer, and visual storyteller. I work at the intersection of motion, code, and user experience
+            to create work that doesn't just look good — it <em>feels</em> right.
+          </p>
+          <p class="reveal-item">
+            With expertise spanning video production, interface design, and front-end development,
+            I bring a holistic perspective to every project. Every pixel has purpose. Every frame tells a story.
+          </p>
+          <div class="about-skills reveal-item">
+            <span class="skill">After Effects</span>
+            <span class="skill">Premiere Pro</span>
+            <span class="skill">Figma</span>
+            <span class="skill">React</span>
+            <span class="skill">GSAP</span>
+            <span class="skill">HTML / CSS / JS</span>
+            <span class="skill">Photoshop</span>
+            <span class="skill">Illustrator</span>
+          </div>
         </div>
       </div>
     </div>
@@ -203,6 +249,7 @@
   <section class="section works-section" id="works">
     <div class="works-inner">
       <div class="section-tag reveal-item">04 — Selected Works</div>
+      <h2 class="works-heading reveal-item">MY<br>WORK.</h2>
 
       <!-- Featured -->
       <div class="works-featured">
@@ -311,9 +358,10 @@
     <div class="section-number-bg">05</div>
   </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="js/main.js"></script>
+  <!-- defer = non-blocking; scripts still execute in order after DOM is parsed -->
+  <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script defer src="js/main.js"></script>
 </body>
 </html>

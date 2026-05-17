@@ -4,7 +4,14 @@
    ============================================================ */
 
 /* ── 1. LENIS SMOOTH SCROLL ───────────────────────────── */
-const lenis = new Lenis({ lerp: 0.1 });
+
+/* Respect prefers-reduced-motion globally: skip smooth scroll + GSAP */
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const lenis = new Lenis({
+  lerp: prefersReduced ? 1 : 0.1,
+  smoothTouch: false,   /* touch devices use native momentum, not Lenis */
+});
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,15 +21,15 @@ gsap.ticker.lagSmoothing(0);
 lenis.on('scroll', ScrollTrigger.update);
 
 /* ── 2. CUSTOM CURSOR ─────────────────────────────────── */
-const dot  = document.getElementById('cursorDot');
+const dot = document.getElementById('cursorDot');
 const ring = document.getElementById('cursorRing');
 const cursorTextEl = document.getElementById('cursorText');
 
 let mouseX = 0, mouseY = 0;
-let ringX  = 0, ringY  = 0;
+let ringX = 0, ringY = 0;
 const LERP = 0.13;
 // Half-sizes for centering without CSS translate
-const DOT_HALF  = 3;
+const DOT_HALF = 3;
 const RING_HALF = 20;
 
 window.addEventListener('mousemove', e => {
@@ -32,13 +39,16 @@ window.addEventListener('mousemove', e => {
   dot.style.transform = `translate3d(${mouseX - DOT_HALF}px,${mouseY - DOT_HALF}px,0)`;
 }, { passive: true });
 
-(function animateRing() {
+/* Cache half-size once; update on resize so no forced layout read per frame */
+let ringHalf = ring.offsetWidth / 2;
+window.addEventListener('resize', () => { ringHalf = ring.offsetWidth / 2; }, { passive: true });
+
+/* Ring lerp runs INSIDE the GSAP ticker — no competing RAF loop */
+gsap.ticker.add(() => {
   ringX += (mouseX - ringX) * LERP;
   ringY += (mouseY - ringY) * LERP;
-  const half = ring.offsetWidth / 2;
-  ring.style.transform = `translate3d(${ringX - half}px,${ringY - half}px,0)`;
-  requestAnimationFrame(animateRing);
-})();
+  ring.style.transform = `translate3d(${ringX - ringHalf}px,${ringY - ringHalf}px,0)`;
+});
 
 /* Cursor state helpers */
 function setCursor(state, text = '') {
@@ -50,17 +60,17 @@ function setCursor(state, text = '') {
 /* ── CURSOR CLICK EFFECT ────────────────────────────────── */
 window.addEventListener('mousedown', () => {
   gsap.to(ring, { scale: 0.65, duration: 0.12, ease: 'power3.in' });
-  gsap.to(dot,  { scale: 2.5,  duration: 0.12, ease: 'power3.in' });
+  gsap.to(dot, { scale: 2.5, duration: 0.12, ease: 'power3.in' });
 });
 window.addEventListener('mouseup', () => {
   gsap.to(ring, { scale: 1, duration: 0.55, ease: 'elastic.out(1.2, 0.4)' });
-  gsap.to(dot,  { scale: 1, duration: 0.3,  ease: 'expo.out' });
+  gsap.to(dot, { scale: 1, duration: 0.3, ease: 'expo.out' });
 });
 window.addEventListener('click', e => {
   const r = document.createElement('div');
   r.className = 'c-ripple';
   r.style.left = e.clientX + 'px';
-  r.style.top  = e.clientY + 'px';
+  r.style.top = e.clientY + 'px';
   document.body.appendChild(r);
   gsap.fromTo(r,
     { scale: 0.5, opacity: 0.9 },
@@ -70,12 +80,12 @@ window.addEventListener('click', e => {
 
 /* Hover targets */
 document.querySelectorAll('a, button, .skill, .service-card').forEach(el => {
-  const isView   = el.hasAttribute('data-cursor');
+  const isView = el.hasAttribute('data-cursor');
   const isResume = el.classList.contains('nav-resume');
   el.addEventListener('mouseenter', () => {
-    if (isResume)       setCursor('c-resume', '');
-    else if (isView)    setCursor('c-view', 'VIEW');
-    else                setCursor('c-hover', '');
+    if (isResume) setCursor('c-resume', '');
+    else if (isView) setCursor('c-view', 'VIEW');
+    else setCursor('c-hover', '');
   });
   el.addEventListener('mouseleave', () => setCursor('', ''));
 });
@@ -83,21 +93,21 @@ document.querySelectorAll('a, button, .skill, .service-card').forEach(el => {
 /* ── 3. MAGNETIC RESUME BUTTON ────────────────────────── */
 const resumeBtn = document.getElementById('resumeBtn');
 if (resumeBtn) {
+  /* quickSetter = near-zero cost vs creating a new tween every mousemove */
+  const xSet = gsap.quickSetter(resumeBtn, 'x', 'px');
+  const ySet = gsap.quickSetter(resumeBtn, 'y', 'px');
   resumeBtn.addEventListener('mousemove', e => {
-    const r   = resumeBtn.getBoundingClientRect();
-    const cx  = r.left + r.width  / 2;
-    const cy  = r.top  + r.height / 2;
-    const dx  = (e.clientX - cx) * 0.38;
-    const dy  = (e.clientY - cy) * 0.38;
-    gsap.to(resumeBtn, { x: dx, y: dy, duration: .4, ease: 'power2.out' });
-  });
+    const r = resumeBtn.getBoundingClientRect();
+    xSet((e.clientX - r.left - r.width / 2) * 0.38);
+    ySet((e.clientY - r.top - r.height / 2) * 0.38);
+  }, { passive: true });
   resumeBtn.addEventListener('mouseleave', () => {
     gsap.to(resumeBtn, { x: 0, y: 0, duration: .6, ease: 'elastic.out(1,.4)' });
   });
 }
 
 /* ── 4. NAVBAR ────────────────────────────────────────── */
-const navbar  = document.getElementById('navbar');
+const navbar = document.getElementById('navbar');
 const navLinks = document.querySelectorAll('.nav-link');
 
 lenis.on('scroll', ({ scroll }) => {
@@ -260,83 +270,110 @@ document.querySelector('.hero-cta')?.addEventListener('click', e => {
   lenis.scrollTo(document.getElementById('works'), { offset: -60, duration: 1.6 });
 });
 
-/* ── 10. PAGE LOADER FADE ─────────────────────────────── */
+/* ── 10. PAGE LOAD ──────────────────────────────────────── */
 window.addEventListener('load', () => {
-  document.body.style.opacity = '0';
-  gsap.to(document.body, { opacity: 1, duration: .8, ease: 'expo.out' });
   ScrollTrigger.refresh();
 });
 
-/* ── 11. HERO DECO — SHOOT TO JUMP ORBIT GAME ─────────── */
+/* ── 12. LIGHTSABER SCROLL PROGRESS ────────────────────── */
 (function () {
-  const deco      = document.querySelector('.hero-deco');
-  const orbitPath = document.getElementById('op');
-  const orbitSVG  = document.querySelector('.deco-orbit');
-  const decoRings = document.querySelectorAll('.deco-ring');
-  const plus      = document.querySelector('.deco-plus');
-  if (!deco || !orbitPath) return;
+  const saberFill = document.getElementById('saberFill');
+  const saberTip = document.getElementById('saberTip');
+  if (!saberFill || !saberTip) return;
 
-  const ORBITS = [61, 115, 168]; // inner · mid · outer radii (matching ring CSS)
-  let orbitIdx = 1;             // start on middle ring
-  const obj = { r: ORBITS[orbitIdx] };
+  /* Cache viewport width; update on resize */
+  let vw = window.innerWidth;
+  window.addEventListener('resize', () => { vw = window.innerWidth; }, { passive: true });
 
-  // Improved SVG circle path for textPath (2 arcs for perfect circle)
-  function buildPath(r) {
-    return `M 170,${170-r} A ${r},${r} 0 1,1 170,${170+r} A ${r},${r} 0 1,1 170,${170-r}`;
-  }
-  orbitPath.setAttribute('d', buildPath(obj.r));
+  lenis.on('scroll', ({ scroll, limit }) => {
+    if (limit <= 0) return;
+    const p = scroll / limit;                    /* 0 → 1 */
+    /* Fill: scaleX from left — GPU composited, no layout */
+    saberFill.style.transform = `scaleX(${p})`;
+    /* Tip: move to the leading edge pixel position */
+    saberTip.style.transform = `translate(${p * vw - 2.5}px, -50%)`;
+  });
+})();
 
-  /* ─── SHOOT ─── */
-  deco.addEventListener('click', e => {
-    const choices = [0,1,2].filter(i => i !== orbitIdx);
-    const next    = choices[Math.floor(Math.random() * choices.length)];
+/* ── 11. CARD STACK INTERACTION ─────────────────────────── */
+(function () {
+  const stack = document.getElementById('cardStack');
+  if (!stack) return;
 
-    /* 1. Big shot ripple */
-    const f1 = document.createElement('div');
-    f1.className = 'c-ripple';
-    f1.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;border-color:rgba(255,255,255,.95);border-width:2px;`;
-    document.body.appendChild(f1);
-    gsap.fromTo(f1, { scale:0, opacity:1 }, { scale:7, opacity:0, duration:.55, ease:'expo.out', onComplete:()=>f1.remove() });
+  const frontCard = stack.querySelector('.card-front');
+  const allCards = stack.querySelectorAll('.stack-card');
 
-    /* 2. Second tighter ripple */
-    const f2 = document.createElement('div');
-    f2.className = 'c-ripple';
-    f2.style.cssText = `left:${e.clientX}px;top:${e.clientY}px;border-color:rgba(255,255,255,.4);`;
-    document.body.appendChild(f2);
-    gsap.fromTo(f2, { scale:0, opacity:.7 }, { scale:3, opacity:0, duration:.3, delay:.1, ease:'expo.out', onComplete:()=>f2.remove() });
+  /* Entrance: cards drop in staggered */
+  gsap.from(allCards, {
+    y: -40, opacity: 0, rotation: 0,
+    duration: 1.1, ease: 'expo.out',
+    stagger: 0.12, delay: 0.8
+  });
 
-    /* 3. Ring recoil */
-    const sx = (Math.random()-.5)*16, sy = (Math.random()-.5)*16;
-    gsap.to(decoRings, { x:sx, y:sy, duration:.07, ease:'power4.out',
-      onComplete:()=>gsap.to(decoRings,{x:0,y:0,duration:.8,ease:'elastic.out(1,.3)'}) });
+  /* 3D tilt on the front card while stack is in resting state */
+  let isFanned = false;
 
-    /* 4. Orbit text jumps to new ring — animated radius */
-    gsap.to(obj, {
-      r: ORBITS[next], duration:.6, ease:'back.out(2.8)',
-      onUpdate()  { orbitPath.setAttribute('d', buildPath(obj.r)); },
-      onComplete(){ orbitIdx = next; }
+  stack.addEventListener('mouseenter', () => {
+    isFanned = true;
+  });
+  stack.addEventListener('mouseleave', () => {
+    isFanned = false;
+    gsap.to(frontCard, {
+      rotationX: 0, rotationY: 0,
+      ease: 'elastic.out(1, 0.4)', duration: 0.9
     });
-
-    /* 5. Text flash — blink out then snap back */
-    if (orbitSVG) gsap.fromTo(orbitSVG, { opacity:0 }, { opacity:1, duration:.45, delay:.15, ease:'expo.out' });
-
-    /* 6. Plus center burst */
-    if (plus) gsap.fromTo(plus, { scale:2.4, opacity:1 }, { scale:1, opacity:.6, duration:.5, ease:'expo.out' });
-  });
-
-  /* ─── CROSSHAIR CURSOR ─── */
-  deco.addEventListener('mouseenter', () => {
-    ring.classList.add('c-crosshair');
-    setCursor('c-fire', '');
-    /* First-time hint */
-    if (!deco._hinted) {
-      deco._hinted = true;
-      cursorTextEl.textContent = 'SHOOT';
-      setTimeout(() => { if (document.body.classList.contains('c-fire')) cursorTextEl.textContent = ''; }, 1800);
-    }
-  });
-  deco.addEventListener('mouseleave', () => {
-    ring.classList.remove('c-crosshair');
     setCursor('', '');
+  });
+
+  stack.addEventListener('mousemove', e => {
+    if (!isFanned) return;
+    const rect = frontCard.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (e.clientX - cx) / (rect.width / 2);
+    const dy = (e.clientY - cy) / (rect.height / 2);
+
+    gsap.to(frontCard, {
+      rotationX: -dy * 9,
+      rotationY: dx * 9,
+      transformPerspective: 900,
+      ease: 'power2.out', duration: 0.35
+    });
+  });
+
+  /* Cursor state */
+  stack.addEventListener('mouseenter', () => setCursor('c-view', 'VIEW'));
+  stack.addEventListener('mouseleave', () => setCursor('', ''));
+})();
+
+/* ── 13. ABOUT PHOTO 3D TILT ───────────────────────────── */
+(function () {
+  const wrap  = document.getElementById('aboutImgWrap');
+  const frame = document.getElementById('aboutImgFrame');
+  if (!wrap || !frame) return;
+
+  wrap.addEventListener('mousemove', e => {
+    const rect = wrap.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (e.clientX - cx) / (rect.width / 2);  /* -1 to 1 */
+    const dy = (e.clientY - cy) / (rect.height / 2); /* -1 to 1 */
+
+    gsap.to(frame, {
+      rotationX: -dy * 12,
+      rotationY: dx * 12,
+      transformPerspective: 1000,
+      ease: 'power2.out',
+      duration: 0.4
+    });
+  });
+
+  wrap.addEventListener('mouseleave', () => {
+    gsap.to(frame, {
+      rotationX: 0,
+      rotationY: 0,
+      ease: 'elastic.out(1, 0.4)',
+      duration: 1
+    });
   });
 })();
