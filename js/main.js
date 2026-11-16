@@ -60,7 +60,7 @@
     });
 
     window.setCursor = function (state, text = '') {
-      document.body.classList.remove('c-hover', 'c-view', 'c-resume');
+      document.body.classList.remove('c-hover', 'c-view', 'c-resume', 'c-crosshair');
       if (state) document.body.classList.add(state);
       if (cursorTextEl) cursorTextEl.textContent = text;
     };
@@ -88,7 +88,7 @@
     });
 
     // Hover interactive elements
-    document.querySelectorAll('a, button, .skill, .service-card, .work-card, .work-feat').forEach((el) => {
+    document.querySelectorAll('a, button, .skill, .service-card, .work-card, .work-feat, .expertise-item, .hero-frequency-ribbon, .hero-period, .dmode-tab').forEach((el) => {
       const isView = el.hasAttribute('data-cursor');
       const customLabel = el.getAttribute('data-cursor') || 'VIEW';
       const isResume = el.classList.contains('nav-resume');
@@ -101,6 +101,13 @@
 
       el.addEventListener('mouseleave', () => window.setCursor('', ''));
     });
+
+    // Crosshair target zone for radar rings
+    const decoRingsEl = document.getElementById('decoRings');
+    if (decoRingsEl) {
+      decoRingsEl.addEventListener('mouseenter', () => window.setCursor('c-crosshair', ''));
+      decoRingsEl.addEventListener('mouseleave', () => window.setCursor('', ''));
+    }
   }
 
   /* ── 4. EIGHT MATCHING DESIGNER THEME PALETTES ───────────── */
@@ -301,80 +308,261 @@
     });
   })();
 
-  /* ── 9. HERO 3D CARD STACK & TOUCH INTERACTION ───────────── */
-  (function initCardDeck() {
+  /* ── 9. HERO COMMAND CENTER & HOLOGRAPHIC DISCIPLINE ENGINE ─ */
+  (function initHeroCommandCenter() {
     const stack = document.getElementById('cardStack');
+    const expertiseItems = document.querySelectorAll('.expertise-item');
+    const modeTabs = document.querySelectorAll('.dmode-tab');
+    const decoRings = document.getElementById('decoRings');
+    const decoOrbit = document.getElementById('decoOrbit');
+    const heroPeriod = document.getElementById('heroPeriod');
+    const freqRibbon = document.querySelector('.hero-frequency-ribbon');
+    const freqVal = document.getElementById('freqVal');
+    const freqBars = document.getElementById('freqBars');
+
     if (!stack) return;
 
-    const frontCard = stack.querySelector('.stack-card.card-front');
-    const allCards = stack.querySelectorAll('.stack-card');
+    const cards = Array.from(stack.querySelectorAll('.stack-card'));
+    let currentDiscipline = 0;
+    const disciplineFreqs = ['432Hz', '528Hz', '852Hz'];
+    const extraFreqs = ['432Hz', '528Hz', '639Hz', '741Hz', '852Hz', '963Hz'];
+    let extraFreqIdx = 0;
 
-    gsap.from(allCards, {
+    // Initial entrance animation
+    gsap.from(cards, {
       y: -35,
       opacity: 0,
       duration: 1,
       ease: 'expo.out',
       stagger: 0.12,
-      delay: 0.6
+      delay: 0.5
     });
 
-    if (!isTouchDevice && frontCard) {
+    if (decoRings) {
+      gsap.from(decoRings, {
+        scale: 0.7,
+        opacity: 0,
+        duration: 1.2,
+        ease: 'expo.out',
+        delay: 0.3
+      });
+    }
+
+    if (decoOrbit) {
+      gsap.from(decoOrbit, {
+        scale: 0.8,
+        opacity: 0,
+        duration: 1.4,
+        ease: 'expo.out',
+        delay: 0.4
+      });
+    }
+
+    // Synchronized discipline switcher
+    function setDiscipline(idx) {
+      currentDiscipline = ((idx % 3) + 3) % 3;
+
+      // 1. Sync expertise items on the left
+      expertiseItems.forEach((item) => {
+        const d = Number(item.getAttribute('data-discipline'));
+        item.classList.toggle('active', d === currentDiscipline);
+      });
+
+      // 2. Sync tactical tabs above deck
+      modeTabs.forEach((tab) => {
+        const d = Number(tab.getAttribute('data-discipline'));
+        tab.classList.toggle('active', d === currentDiscipline);
+      });
+
+      // 3. Arrange 3D card deck
+      cards.forEach((card) => {
+        const cardIdx = Number(card.getAttribute('data-index'));
+        card.classList.remove('card-front', 'card-mid', 'card-back');
+
+        if (cardIdx === currentDiscipline) {
+          card.classList.add('card-front');
+          gsap.fromTo(card,
+            { scale: 0.94 },
+            { scale: 1, duration: 0.45, ease: 'back.out(1.8)' }
+          );
+        } else if (cardIdx === (currentDiscipline + 1) % 3) {
+          card.classList.add('card-mid');
+        } else {
+          card.classList.add('card-back');
+        }
+      });
+
+      // 4. Update frequency indicator
+      if (freqVal && disciplineFreqs[currentDiscipline]) {
+        freqVal.textContent = disciplineFreqs[currentDiscipline];
+      }
+    }
+
+    // Discipline items interaction (hover & click)
+    expertiseItems.forEach((item) => {
+      const d = Number(item.getAttribute('data-discipline'));
+
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        setDiscipline(d);
+      });
+
+      if (!isTouchDevice) {
+        item.addEventListener('mouseenter', () => {
+          setDiscipline(d);
+        });
+      }
+    });
+
+    // Tactical mode tabs interaction
+    modeTabs.forEach((tab) => {
+      tab.addEventListener('click', (e) => {
+        e.preventDefault();
+        const d = Number(tab.getAttribute('data-discipline'));
+        setDiscipline(d);
+      });
+    });
+
+    // 3D Card Stack click / tap to cycle
+    stack.addEventListener('click', (e) => {
+      // Don't intercept clicks on inner links if user specifically clicked a link
+      setDiscipline(currentDiscipline + 1);
+
+      if (isTouchDevice) {
+        stack.classList.add('fanned');
+        setTimeout(() => stack.classList.remove('fanned'), 1200);
+      }
+    });
+
+    // 3D Gyroscopic tilt on front card for desktop
+    if (!isTouchDevice) {
       let isHovered = false;
 
       stack.addEventListener('mouseenter', () => { isHovered = true; });
       stack.addEventListener('mouseleave', () => {
         isHovered = false;
-        gsap.to(frontCard, {
-          rotationX: 0,
-          rotationY: 0,
-          ease: 'elastic.out(1, 0.4)',
-          duration: 0.8
-        });
+        const front = stack.querySelector('.stack-card.card-front');
+        if (front) {
+          gsap.to(front, {
+            rotationX: 0,
+            rotationY: 0,
+            ease: 'elastic.out(1, 0.4)',
+            duration: 0.8
+          });
+        }
       });
 
       stack.addEventListener('mousemove', (e) => {
         if (!isHovered) return;
-        const rect = frontCard.getBoundingClientRect();
+        const front = stack.querySelector('.stack-card.card-front');
+        if (!front) return;
+
+        const rect = front.getBoundingClientRect();
         const cx = rect.left + rect.width / 2;
         const cy = rect.top + rect.height / 2;
         const dx = (e.clientX - cx) / (rect.width / 2);
         const dy = (e.clientY - cy) / (rect.height / 2);
 
-        gsap.to(frontCard, {
-          rotationX: -dy * 8,
-          rotationY: dx * 8,
-          transformPerspective: 900,
+        gsap.to(front, {
+          rotationX: -dy * 9,
+          rotationY: dx * 9,
+          transformPerspective: 950,
           ease: 'power2.out',
           duration: 0.35
         });
       }, { passive: true });
     }
 
-    // Touch devices: tap cycles cards & triggers temporary fan
-    function cycleDeck() {
-      const cBack = stack.querySelector('.card-back');
-      const cMid = stack.querySelector('.card-mid');
-      const cFront = stack.querySelector('.card-front');
+    // Tactical Radar Rings & Orbit recoil shockwave game
+    if (decoRings) {
+      decoRings.addEventListener('click', (e) => {
+        // Shockwave recoil on rings
+        gsap.fromTo(decoRings,
+          { scale: 0.92 },
+          { scale: 1.08, duration: 0.14, ease: 'power2.out', yoyo: true, repeat: 1 }
+        );
 
-      if (!cBack || !cMid || !cFront) return;
+        // Center reticle burst
+        const plus = decoRings.querySelector('.deco-plus');
+        if (plus) {
+          gsap.to(plus, {
+            rotation: '+=180',
+            scale: 1.6,
+            duration: 0.45,
+            ease: 'back.out(2)',
+            onComplete: () => gsap.to(plus, { scale: 1, duration: 0.3 })
+          });
+        }
 
-      cBack.classList.remove('card-back');
-      cBack.classList.add('card-mid');
+        // Kinetic text orbit speed boost
+        if (decoOrbit) {
+          gsap.to(decoOrbit, {
+            rotation: '+=90',
+            duration: 0.85,
+            ease: 'expo.out'
+          });
+        }
 
-      cMid.classList.remove('card-mid');
-      cMid.classList.add('card-front');
+        // Radar ripple shockwave
+        const r = document.createElement('div');
+        r.className = 'c-ripple';
+        r.style.left = e.clientX + 'px';
+        r.style.top = e.clientY + 'px';
+        document.body.appendChild(r);
+        gsap.fromTo(r,
+          { scale: 0.6, opacity: 0.95 },
+          { scale: 5.5, opacity: 0, duration: 0.65, ease: 'expo.out', onComplete: () => r.remove() }
+        );
 
-      cFront.classList.remove('card-front');
-      cFront.classList.add('card-back');
+        showToast(`RADAR RECOIL // FREQ LOCKED: ${freqVal ? freqVal.textContent : '432Hz'}`, '#22d3ee');
+      });
     }
 
-    stack.addEventListener('click', (e) => {
-      cycleDeck();
-      if (isTouchDevice) {
-        stack.classList.add('fanned');
-        setTimeout(() => stack.classList.remove('fanned'), 1200);
-      }
-    });
+    // Interactive Period Beacon
+    if (heroPeriod) {
+      heroPeriod.addEventListener('click', (e) => {
+        e.stopPropagation();
+        gsap.fromTo(heroPeriod,
+          { scale: 2.2, filter: 'brightness(2)' },
+          { scale: 1, filter: 'brightness(1)', duration: 0.5, ease: 'elastic.out(1.2, 0.4)' }
+        );
+
+        const r = document.createElement('div');
+        r.className = 'c-ripple';
+        r.style.left = e.clientX + 'px';
+        r.style.top = e.clientY + 'px';
+        document.body.appendChild(r);
+        gsap.fromTo(r,
+          { scale: 0.5, opacity: 0.9 },
+          { scale: 4, opacity: 0, duration: 0.5, ease: 'expo.out', onComplete: () => r.remove() }
+        );
+
+        showToast('SYS.BEACON: Winter Studio Core Online · 120 FPS Active', '#c084fc');
+      });
+    }
+
+    // Equalizer Frequency Ribbon Modulation
+    if (freqRibbon) {
+      freqRibbon.addEventListener('click', () => {
+        extraFreqIdx = (extraFreqIdx + 1) % extraFreqs.length;
+        const nextFreq = extraFreqs[extraFreqIdx];
+        if (freqVal) freqVal.textContent = nextFreq;
+
+        if (freqBars) {
+          gsap.fromTo(freqBars.querySelectorAll('span'),
+            { scaleY: 0.2 },
+            { scaleY: 1, duration: 0.35, stagger: 0.04, ease: 'elastic.out(1.2, 0.4)' }
+          );
+        }
+
+        gsap.fromTo(freqRibbon,
+          { scale: 0.94 },
+          { scale: 1, duration: 0.3, ease: 'back.out(2)' }
+        );
+
+        showToast(`Equalizer Harmonic Tuned: ${nextFreq}`, '#10b981');
+      });
+    }
   })();
 
   /* ── 10. ABOUT PHOTO 3D GYROSCOPE TILT & TOUCH STATE ────── */
