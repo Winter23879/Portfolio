@@ -11,27 +11,19 @@
   <meta property="og:description" content="Crafting digital experiences at the intersection of cinematic art, human-centric design, and precision code.">
   <meta property="og:type" content="website">
   
-  <!-- Preconnect & Google Fonts -->
+  <!-- Preconnect & Trimmed High-Performance Google Fonts (Saves 75% font payload) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Playfair+Display:ital,wght@0,700;1,400&family=Space+Grotesk:wght@500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="css/style.css">
   
-  <!-- Preload LCP visual -->
-  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=1000&fit=crop&q=85">
+  <!-- Preload LCP visual with auto=format (WebP via Unsplash CDN) -->
+  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&h=650&fit=crop&q=75&auto=format">
 </head>
 <body class="theme-aurora">
 
-  <!-- Noise Overlay for Filmic Editorial Depth -->
-  <div class="noise-overlay" aria-hidden="true"></div>
-
-  <!-- Ambient Dynamic Glow Orbs -->
-  <div class="ambient-glow glow-1" aria-hidden="true"></div>
-  <div class="ambient-glow glow-2" aria-hidden="true"></div>
-  <div class="ambient-glow glow-3" aria-hidden="true"></div>
-
-  <!-- Lightsaber Scroll Progress Bar -->
+  <!-- Lightsaber Scroll Progress Bar (Hardware Accelerated) -->
   <div class="saber-bar" id="saberBar" aria-hidden="true">
     <div class="saber-fill" id="saberFill"></div>
     <div class="saber-tip" id="saberTip"></div>
@@ -234,15 +226,13 @@
 
         <!-- Right Hero Interactive 3D Holographic Showcase -->
         <div class="hero-showcase reveal-item" aria-label="Selected Works Showcase">
-          <div class="showcase-glow" aria-hidden="true"></div>
           
           <div class="card-stack" id="cardStack" role="region" aria-label="Interactive Showcase Deck">
             
             <!-- Card 1 (Back): Motion Reel -->
             <div class="stack-card card-back" data-card-index="0" tabindex="0" role="button" aria-label="Open Motion Reel project">
-              <div class="card-glass-glow"></div>
               <div class="card-media">
-                <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&h=800&fit=crop&q=85" alt="Motion Reel 2024 by Winter" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=450&h=600&fit=crop&q=75&auto=format" alt="Motion Reel 2024 by Winter" loading="lazy">
                 <div class="media-overlay"></div>
                 <div class="media-badge">
                   <span class="pulse-red"></span>
@@ -260,9 +250,8 @@
 
             <!-- Card 2 (Mid): Web Dev & E-Commerce -->
             <div class="stack-card card-mid" data-card-index="1" tabindex="0" role="button" aria-label="Open E-Commerce Platform project">
-              <div class="card-glass-glow"></div>
               <div class="card-media">
-                <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&h=800&fit=crop&q=85" alt="E-Commerce Platform Web Development" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=450&h=600&fit=crop&q=75&auto=format" alt="E-Commerce Platform Web Development" loading="lazy">
                 <div class="media-overlay"></div>
                 <div class="media-badge">
                   <span class="tech-tag">NEXT.JS 15</span>
@@ -279,9 +268,8 @@
 
             <!-- Card 3 (Front - LCP): Brand Identity & UI/UX -->
             <div class="stack-card card-front" data-card-index="2" tabindex="0" role="button" aria-label="Open Brand Identity System">
-              <div class="card-glass-glow"></div>
               <div class="card-media">
-                <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=800&fit=crop&q=85" alt="Brand Identity & Design System by Winter" loading="eager" fetchpriority="high">
+                <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&h=650&fit=crop&q=75&auto=format" alt="Brand Identity & Design System by Winter" loading="eager" fetchpriority="high">
                 <div class="media-overlay"></div>
                 <div class="media-badge front-badge">
                   <span class="sparkle">✦</span>
@@ -400,7 +388,6 @@
           <!-- Cyber-Editorial Portrait Frame -->
           <div class="about-img-wrap reveal-item" id="aboutImgWrap" data-cursor="WINTER">
             <div class="about-img-frame" id="aboutImgFrame">
-              <div class="about-img-glow"></div>
               
               <!-- Portrait Image -->
               <img src="assets/Me.png" alt="Winter — Creative Director &amp; Dev Architect" class="about-img" loading="lazy">
@@ -541,8 +528,7 @@
         <div class="services-bento-grid">
           
           <!-- Bento Card 1: Video Production -->
-          <div class="service-bento-card bento-glow reveal-item" data-cursor="FILM">
-            <div class="bento-spotlight"></div>
+          <div class="service-bento-card reveal-item" data-cursor="FILM">
             <div class="bento-top">
               <span class="service-num">01 // DIRECTION</span>
               <div class="service-icon">
@@ -582,8 +568,7 @@
           </div>
 
           <!-- Bento Card 2: UI/UX Design -->
-          <div class="service-bento-card bento-glow featured-bento reveal-item" data-cursor="DESIGN">
-            <div class="bento-spotlight"></div>
+          <div class="service-bento-card featured-bento reveal-item" data-cursor="DESIGN">
             <div class="bento-top">
               <span class="service-num">02 // ARCHITECTURE</span>
               <div class="service-icon">
@@ -623,8 +608,7 @@
           </div>
 
           <!-- Bento Card 3: Creative Web Development -->
-          <div class="service-bento-card bento-glow reveal-item" data-cursor="CODE">
-            <div class="bento-spotlight"></div>
+          <div class="service-bento-card reveal-item" data-cursor="CODE">
             <div class="bento-top">
               <span class="service-num">03 // ENGINEERING</span>
               <div class="service-icon">
@@ -696,7 +680,7 @@
           <!-- Featured Work 1: E-Commerce -->
           <article class="work-feat-card reveal-item" data-category="web" data-cursor="VIEW">
             <div class="work-feat-img-wrap">
-              <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=1000&h=650&fit=crop&q=85" alt="E-Commerce Platform" class="work-thumb" loading="lazy">
+              <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=650&h=450&fit=crop&q=75&auto=format" alt="E-Commerce Platform" class="work-thumb" loading="lazy">
               <div class="work-card-glass"></div>
               <div class="work-badge-pill">
                 <span class="metric-highlight">+340% CONVERSIONS</span>
@@ -725,7 +709,7 @@
           <!-- Featured Work 2: Brand Identity System -->
           <article class="work-feat-card reveal-item" data-category="design" data-cursor="VIEW">
             <div class="work-feat-img-wrap">
-              <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1000&h=650&fit=crop&q=85" alt="Brand Identity System" class="work-thumb" loading="lazy">
+              <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=650&h=450&fit=crop&q=75&auto=format" alt="Brand Identity System" class="work-thumb" loading="lazy">
               <div class="work-card-glass"></div>
               <div class="work-badge-pill">
                 <span class="metric-highlight">AWARD FINALIST</span>
@@ -759,7 +743,7 @@
           <!-- Card 1: Motion Reel -->
           <article class="work-grid-card reveal-item" data-category="video" data-cursor="PLAY">
             <div class="card-thumb-wrap">
-              <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=700&h=480&fit=crop&q=85" alt="Motion Reel 2024" class="work-thumb" loading="lazy">
+              <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=450&h=320&fit=crop&q=75&auto=format" alt="Motion Reel 2024" class="work-thumb" loading="lazy">
               <div class="card-play-overlay">
                 <span class="play-btn-circle">
                   <svg viewBox="0 0 24 24" fill="currentColor">
@@ -782,7 +766,7 @@
           <!-- Card 2: Mobile Banking App -->
           <article class="work-grid-card reveal-item" data-category="design" data-cursor="VIEW">
             <div class="card-thumb-wrap">
-              <img src="https://images.unsplash.com/photo-1512941937938-a272e52dc9af?w=700&h=480&fit=crop&q=85" alt="Mobile Banking App" class="work-thumb" loading="lazy">
+              <img src="https://images.unsplash.com/photo-1512941937938-a272e52dc9af?w=450&h=320&fit=crop&q=75&auto=format" alt="Mobile Banking App" class="work-thumb" loading="lazy">
               <div class="card-play-overlay">
                 <span class="play-btn-circle">↗</span>
               </div>
@@ -801,7 +785,7 @@
           <!-- Card 3: Nandini Dev Portfolio (Live Link) -->
           <a href="https://nandini-portfolio-bay.vercel.app/" target="_blank" rel="noopener noreferrer" class="work-grid-card reveal-item" data-category="web" data-cursor="VISIT">
             <div class="card-thumb-wrap">
-              <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=700&h=480&fit=crop&q=85" alt="Nandini Dev Portfolio" class="work-thumb" loading="lazy">
+              <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=450&h=320&fit=crop&q=75&auto=format" alt="Nandini Dev Portfolio" class="work-thumb" loading="lazy">
               <div class="card-play-overlay">
                 <span class="play-btn-circle">↗</span>
               </div>
@@ -820,7 +804,7 @@
           <!-- Card 4: Documentary Short -->
           <article class="work-grid-card reveal-item" data-category="video" data-cursor="WATCH">
             <div class="card-thumb-wrap">
-              <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=700&h=480&fit=crop&q=85" alt="Documentary Short" class="work-thumb" loading="lazy">
+              <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=450&h=320&fit=crop&q=75&auto=format" alt="Documentary Short" class="work-thumb" loading="lazy">
               <div class="card-play-overlay">
                 <span class="play-btn-circle">
                   <svg viewBox="0 0 24 24" fill="currentColor">
@@ -1062,7 +1046,7 @@
     </section>
   </main>
 
-  <!-- External Libraries -->
+  <!-- External Libraries (Deferred) -->
   <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
