@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Winter — Creative Director, UI/UX Designer &amp; Dev Architect</title>
   <meta name="description" content="Winter is a multidisciplinary Creative Director, UI/UX Architect, and Creative Developer crafting award-winning digital experiences, cinematic visuals, and modern web applications.">
   
@@ -153,7 +153,7 @@
       </ul>
 
       <div class="nav-actions">
-        <!-- Ambient Theme Selector (Cycles full 8-color designer themes) -->
+        <!-- Ambient Theme Selector (Always accessible on all devices) -->
         <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Switch complete color palette" title="Click to transform color palette">
           <span class="theme-color-dot" id="themeColorDot"></span>
           <span class="theme-name" id="themeNameLabel">Cyan Aurora</span>
@@ -193,6 +193,10 @@
         <li><a href="#contact" class="mobile-link" data-section="contact"><span class="m-num">06</span>Start a Project</a></li>
       </ul>
       <div class="mobile-footer">
+        <button class="mobile-theme-btn" id="mobileThemeBtn">
+          <span class="theme-color-dot" id="mobileThemeDot"></span>
+          <span>Switch Palette Atmosphere</span>
+        </button>
         <a href="mailto:saikrishnam966@gmail.com" class="mobile-email">saikrishnam966@gmail.com</a>
         <div class="mobile-status">Based in Nellore, India · Available Globally</div>
       </div>
@@ -472,9 +476,10 @@
         </div>
 
         <div class="about-grid">
-          <!-- Cyber-Editorial Portrait Frame -->
+          <!-- Cyber-Editorial Portrait Frame (Fully Restored & Responsive) -->
           <div class="about-img-wrap reveal-item" id="aboutImgWrap" data-cursor="WINTER">
             <div class="about-img-frame" id="aboutImgFrame">
+              <div class="about-img-glow" aria-hidden="true"></div>
               
               <!-- Portrait Image -->
               <img src="assets/Me.png" alt="Winter — Creative Director &amp; Dev Architect" class="about-img" loading="lazy">
@@ -959,7 +964,7 @@
             <span>ACTION</span>
           </div>
           <div class="editorial-list-body" id="editorialListBody">
-            <!-- Dynamically populated or rendered -->
+            <!-- Dynamically populated via JS -->
           </div>
           <!-- Floating Cursor Hover Preview for List Mode -->
           <div class="list-hover-preview" id="listHoverPreview" aria-hidden="true">

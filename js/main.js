@@ -187,6 +187,8 @@
   const themeToggleBtn = document.getElementById('themeToggleBtn');
   const themeColorDot = document.getElementById('themeColorDot');
   const themeNameLabel = document.getElementById('themeNameLabel');
+  const mobileThemeBtn = document.getElementById('mobileThemeBtn');
+  const mobileThemeDot = document.getElementById('mobileThemeDot');
   const toast = document.getElementById('toastNotification');
   const toastMsg = document.getElementById('toastMsg');
   const toastSwatch = document.getElementById('toastSwatch');
@@ -218,24 +220,37 @@
 
     if (themeColorDot) themeColorDot.style.background = nextTheme.dot;
     if (themeNameLabel) themeNameLabel.textContent = nextTheme.name;
+    if (mobileThemeDot) mobileThemeDot.style.background = nextTheme.dot;
 
     showToast(`Palette: ${nextTheme.name} (${nextTheme.desc})`, nextTheme.dot);
   }
 
+  function cycleThemeRandom() {
+    let nextIdx;
+    do {
+      nextIdx = Math.floor(Math.random() * themes.length);
+    } while (nextIdx === currentThemeIndex);
+
+    currentThemeIndex = nextIdx;
+    applyTheme(currentThemeIndex);
+  }
+
   if (themeToggleBtn) {
     themeToggleBtn.addEventListener('click', () => {
-      // Pick random theme from the remaining 7 themes
-      let nextIdx;
-      do {
-        nextIdx = Math.floor(Math.random() * themes.length);
-      } while (nextIdx === currentThemeIndex);
-
-      currentThemeIndex = nextIdx;
-      applyTheme(currentThemeIndex);
-
+      cycleThemeRandom();
       gsap.fromTo(themeToggleBtn,
         { scale: 0.92 },
         { scale: 1, duration: 0.4, ease: 'back.out(2)' }
+      );
+    });
+  }
+
+  if (mobileThemeBtn) {
+    mobileThemeBtn.addEventListener('click', () => {
+      cycleThemeRandom();
+      gsap.fromTo(mobileThemeBtn,
+        { scale: 0.94 },
+        { scale: 1, duration: 0.35, ease: 'back.out(2)' }
       );
     });
   }
@@ -352,7 +367,13 @@
       });
     }
 
-    stack.addEventListener('click', cycleStack);
+    stack.addEventListener('click', () => {
+      cycleStack();
+      if (isTouchDevice) {
+        stack.classList.add('fanned');
+        setTimeout(() => stack.classList.remove('fanned'), 1200);
+      }
+    });
   })();
 
   /* ── 11. COMPLETE PROJECT DATABASE ──────────────────────── */
@@ -758,6 +779,53 @@
         });
       });
     });
+  })();
+
+  /* ── 18.5 ABOUT PHOTO 3D TILT & TOUCH INTERACTION ─────────── */
+  (function initAboutPortrait() {
+    const wrap = document.getElementById('aboutImgWrap');
+    const frame = document.getElementById('aboutImgFrame');
+    if (!wrap || !frame) return;
+
+    if (!isTouchDevice) {
+      wrap.addEventListener('mousemove', (e) => {
+        const rect = wrap.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = (e.clientX - cx) / (rect.width / 2);
+        const dy = (e.clientY - cy) / (rect.height / 2);
+
+        gsap.to(frame, {
+          rotationX: -dy * 12,
+          rotationY: dx * 12,
+          transformPerspective: 1000,
+          ease: 'power2.out',
+          duration: 0.35,
+          overwrite: 'auto'
+        });
+      }, { passive: true });
+
+      wrap.addEventListener('mouseleave', () => {
+        gsap.to(frame, {
+          rotationX: 0,
+          rotationY: 0,
+          ease: 'elastic.out(1, 0.4)',
+          duration: 0.9,
+          overwrite: 'auto'
+        });
+      });
+    }
+
+    // Touch devices: tap to toggle active state & effects
+    wrap.addEventListener('click', () => {
+      wrap.classList.toggle('touch-active');
+    });
+
+    document.addEventListener('touchstart', (e) => {
+      if (!wrap.contains(e.target)) {
+        wrap.classList.remove('touch-active');
+      }
+    }, { passive: true });
   })();
 
   /* ── 19. BACK TO TOP BUTTON ─────────────────────────────── */
