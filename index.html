@@ -11,19 +11,19 @@
   <meta property="og:description" content="Crafting digital experiences at the intersection of cinematic art, human-centric design, and precision code.">
   <meta property="og:type" content="website">
   
-  <!-- Preconnect & Trimmed High-Performance Google Fonts (Saves 75% font payload) -->
+  <!-- Preconnect & High-Performance Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&family=Playfair+Display:ital,wght@0,700;1,400&family=Space+Grotesk:wght@500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,700;1,400&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="css/style.css">
   
-  <!-- Preload LCP visual with auto=format (WebP via Unsplash CDN) -->
+  <!-- Preload LCP visual -->
   <link rel="preload" as="image" href="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&h=650&fit=crop&q=75&auto=format">
 </head>
 <body class="theme-aurora">
 
-  <!-- Lightsaber Scroll Progress Bar (Hardware Accelerated) -->
+  <!-- Lightsaber Scroll Progress Bar -->
   <div class="saber-bar" id="saberBar" aria-hidden="true">
     <div class="saber-fill" id="saberFill"></div>
     <div class="saber-tip" id="saberTip"></div>
@@ -37,10 +37,95 @@
 
   <!-- Ambient Toast Notification -->
   <div class="toast-notification" id="toastNotification" role="alert" aria-live="polite">
-    <svg class="toast-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M20 6L9 17l-5-5"/>
-    </svg>
+    <span class="toast-swatch" id="toastSwatch" aria-hidden="true"></span>
     <span class="toast-msg" id="toastMsg">Email copied to clipboard!</span>
+  </div>
+
+  <!-- Interactive Project Case Study Modal -->
+  <div class="project-modal" id="projectModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-window">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close project modal">&times;</button>
+      
+      <div class="modal-grid">
+        <div class="modal-media-col">
+          <div class="modal-img-wrap">
+            <img src="" alt="" id="modalImg" class="modal-img" loading="lazy">
+            <div class="modal-img-badge" id="modalBadge">CASE STUDY</div>
+          </div>
+          <div class="modal-meta-pills" id="modalTechStack">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <div class="modal-info-col">
+          <div class="modal-eyebrow" id="modalCategory">WEB DEVELOPMENT · 2024</div>
+          <h2 class="modal-title" id="modalTitle">Project Title</h2>
+          <div class="modal-metric-card" id="modalMetricCard">
+            <span class="modal-metric-highlight" id="modalMetricVal">+340% CONVERSIONS</span>
+            <span class="modal-metric-lbl" id="modalMetricLbl">Verified Client Growth</span>
+          </div>
+
+          <div class="modal-section-title">// OVERVIEW &amp; STRATEGY</div>
+          <p class="modal-desc" id="modalDesc">Detailed description of the project architecture, design decisions, and execution.</p>
+
+          <div class="modal-details-grid">
+            <div class="modal-cell">
+              <span class="mcell-label">CLIENT / BRAND</span>
+              <span class="mcell-val" id="modalClient">Luxora Global</span>
+            </div>
+            <div class="modal-cell">
+              <span class="mcell-label">MY ROLE</span>
+              <span class="mcell-val" id="modalRole">Lead Dev &amp; UI</span>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-primary modal-live-btn" id="modalLiveLink">
+              <span class="btn-text">Experience Live Site</span>
+              <span class="btn-arrow-wrap">↗</span>
+            </a>
+            <button class="btn-secondary modal-share-btn" id="modalShareBtn">
+              <span class="btn-text">Copy Link</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Showreel Player Modal -->
+  <div class="showreel-modal" id="showreelModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" id="showreelBackdrop"></div>
+    <div class="showreel-window">
+      <button class="modal-close-btn" id="showreelCloseBtn" aria-label="Close showreel">&times;</button>
+      <div class="showreel-player-wrap">
+        <div class="showreel-sim-screen">
+          <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&h=700&fit=crop&q=80&auto=format" alt="Motion Reel Preview" class="showreel-poster">
+          <div class="showreel-hud">
+            <div class="shud-top">
+              <span class="shud-badge"><span class="pulse-red"></span> LIVE PLAYBACK · 4K 60FPS</span>
+              <span class="shud-time">00:48 / 01:24</span>
+            </div>
+            <div class="shud-center">
+              <div class="shud-play-ring">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+              </div>
+              <span class="shud-title">WINTER — 2025 MASTER REEL</span>
+              <span class="shud-sub">Cinematic Motion · Color Grading · Sound FX</span>
+            </div>
+            <div class="shud-waveform">
+              <span class="wave-bar w1"></span><span class="wave-bar w2"></span><span class="wave-bar w3"></span>
+              <span class="wave-bar w4"></span><span class="wave-bar w5"></span><span class="wave-bar w6"></span>
+              <span class="wave-bar w7"></span><span class="wave-bar w8"></span><span class="wave-bar w9"></span>
+              <span class="wave-bar w10"></span><span class="wave-bar w11"></span><span class="wave-bar w12"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Navigation Bar -->
@@ -68,13 +153,11 @@
       </ul>
 
       <div class="nav-actions">
-        <!-- Ambient Theme Selector -->
-        <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Cycle ambient glow theme" title="Switch ambient atmosphere">
-          <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="5"/>
-            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-          </svg>
-          <span class="theme-name" id="themeNameLabel">Cyan / Aura</span>
+        <!-- Ambient Theme Selector (Cycles full 8-color designer themes) -->
+        <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Switch complete color palette" title="Click to transform color palette">
+          <span class="theme-color-dot" id="themeColorDot"></span>
+          <span class="theme-name" id="themeNameLabel">Cyan Aurora</span>
+          <span class="theme-shuffle-icon">✦</span>
         </button>
 
         <!-- Magnetic Résumé CTA -->
@@ -144,10 +227,13 @@
               <span class="hero-char-wrap"><span class="hero-main-word">WIN</span></span>
               <span class="hero-char-wrap"><span class="hero-main-word hero-accent-word">TER.</span></span>
             </span>
-            <span class="title-sub-row">
+            <div class="title-sub-row">
               <span class="hero-ghost-text">STUDIO</span>
-              <span class="hero-descriptor">/ MOTION · UI/UX · CODE</span>
-            </span>
+              <div class="hero-rotating-pill">
+                <span class="rotator-sparkle">✦</span>
+                <span class="rotator-label" id="rotatorLabel">MOTION &amp; FILM DIRECTION</span>
+              </div>
+            </div>
           </h1>
 
           <!-- Compelling Pitch -->
@@ -212,15 +298,16 @@
               </span>
             </a>
             
+            <!-- Showreel Trigger Button -->
+            <button class="btn-secondary hero-showreel-btn" id="openShowreelBtn">
+              <span class="showreel-play-icon">▶</span>
+              <span class="btn-text">Watch Showreel (01:24)</span>
+            </button>
+
             <a href="#contact" class="btn-secondary" id="heroCtaContact">
               <span class="btn-text">Start a Project</span>
               <span class="btn-arrow-wrap">↗</span>
             </a>
-
-            <div class="hero-live-pill">
-              <span class="live-indicator"></span>
-              <span class="live-label">Accepting Select Q1/Q2 Projects</span>
-            </div>
           </div>
         </div>
 
@@ -230,7 +317,7 @@
           <div class="card-stack" id="cardStack" role="region" aria-label="Interactive Showcase Deck">
             
             <!-- Card 1 (Back): Motion Reel -->
-            <div class="stack-card card-back" data-card-index="0" tabindex="0" role="button" aria-label="Open Motion Reel project">
+            <div class="stack-card card-back" data-card-index="0" data-project-id="motion-reel" tabindex="0" role="button" aria-label="Open Motion Reel project">
               <div class="card-media">
                 <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=450&h=600&fit=crop&q=75&auto=format" alt="Motion Reel 2024 by Winter" loading="lazy">
                 <div class="media-overlay"></div>
@@ -249,7 +336,7 @@
             </div>
 
             <!-- Card 2 (Mid): Web Dev & E-Commerce -->
-            <div class="stack-card card-mid" data-card-index="1" tabindex="0" role="button" aria-label="Open E-Commerce Platform project">
+            <div class="stack-card card-mid" data-card-index="1" data-project-id="ecommerce-platform" tabindex="0" role="button" aria-label="Open E-Commerce Platform project">
               <div class="card-media">
                 <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=450&h=600&fit=crop&q=75&auto=format" alt="E-Commerce Platform Web Development" loading="lazy">
                 <div class="media-overlay"></div>
@@ -267,7 +354,7 @@
             </div>
 
             <!-- Card 3 (Front - LCP): Brand Identity & UI/UX -->
-            <div class="stack-card card-front" data-card-index="2" tabindex="0" role="button" aria-label="Open Brand Identity System">
+            <div class="stack-card card-front" data-card-index="2" data-project-id="brand-identity" tabindex="0" role="button" aria-label="Open Brand Identity System">
               <div class="card-media">
                 <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&h=650&fit=crop&q=75&auto=format" alt="Brand Identity & Design System by Winter" loading="eager" fetchpriority="high">
                 <div class="media-overlay"></div>
@@ -282,7 +369,7 @@
                       <polygon points="5 3 19 12 5 21 5 3"/>
                     </svg>
                   </span>
-                  <span class="prompt-text">View Deck</span>
+                  <span class="prompt-text">View Case Study</span>
                 </div>
               </div>
               <div class="stack-label">
@@ -651,7 +738,7 @@
       <div class="section-number-bg" aria-hidden="true">03</div>
     </section>
 
-    <!-- SELECTED WORKS SECTION -->
+    <!-- SELECTED WORKS SECTION (REDESIGNED & HIGHLY INTERACTIVE) -->
     <section class="section works-section" id="works">
       <div class="works-inner">
         <div class="section-tag reveal-item">
@@ -660,171 +747,226 @@
         </div>
 
         <div class="works-header-row reveal-item">
-          <div>
+          <div class="works-title-box">
             <h2 class="works-heading">MY<br>WORK.</h2>
-            <p class="works-desc">A selection of recent projects spanning visual storytelling, digital products, and web engineering.</p>
+            <p class="works-desc">Click any project to inspect the complete case study, technical stack &amp; live deliverables.</p>
           </div>
 
-          <!-- Interactive Works Filter Tabs -->
-          <div class="works-filter-nav" id="worksFilterNav" role="tablist">
-            <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">All Works <span class="badge">6</span></button>
-            <button class="filter-btn" data-filter="web" role="tab" aria-selected="false">Web Dev <span class="badge">2</span></button>
-            <button class="filter-btn" data-filter="design" role="tab" aria-selected="false">UI/UX <span class="badge">2</span></button>
-            <button class="filter-btn" data-filter="video" role="tab" aria-selected="false">Video <span class="badge">2</span></button>
+          <!-- Controls: Category Filters + View Mode Switcher -->
+          <div class="works-controls-wrap">
+            <!-- Filter Tabs -->
+            <div class="works-filter-nav" id="worksFilterNav" role="tablist">
+              <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">All Works <span class="badge">6</span></button>
+              <button class="filter-btn" data-filter="web" role="tab" aria-selected="false">Web Dev <span class="badge">2</span></button>
+              <button class="filter-btn" data-filter="design" role="tab" aria-selected="false">UI/UX <span class="badge">2</span></button>
+              <button class="filter-btn" data-filter="video" role="tab" aria-selected="false">Video <span class="badge">2</span></button>
+            </div>
+
+            <!-- View Mode Switcher: Grid vs Magazine List -->
+            <div class="works-view-switch" id="worksViewSwitch">
+              <button class="view-btn active" id="viewGridBtn" aria-label="Grid view" title="Grid View">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="7" height="7"/>
+                  <rect x="14" y="3" width="7" height="7"/>
+                  <rect x="14" y="14" width="7" height="7"/>
+                  <rect x="3" y="14" width="7" height="7"/>
+                </svg>
+              </button>
+              <button class="view-btn" id="viewListBtn" aria-label="Editorial list view" title="Editorial List View">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="8" y1="6" x2="21" y2="6"/>
+                  <line x1="8" y1="12" x2="21" y2="12"/>
+                  <line x1="8" y1="18" x2="21" y2="18"/>
+                  <line x1="3" y1="6" x2="3.01" y2="6"/>
+                  <line x1="3" y1="12" x2="3.01" y2="12"/>
+                  <line x1="3" y1="18" x2="3.01" y2="18"/>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
 
-        <!-- Featured Projects Showcase (2-Column Grid) -->
-        <div class="works-featured-grid">
-          
-          <!-- Featured Work 1: E-Commerce -->
-          <article class="work-feat-card reveal-item" data-category="web" data-cursor="VIEW">
-            <div class="work-feat-img-wrap">
-              <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=650&h=450&fit=crop&q=75&auto=format" alt="E-Commerce Platform" class="work-thumb" loading="lazy">
-              <div class="work-card-glass"></div>
-              <div class="work-badge-pill">
-                <span class="metric-highlight">+340% CONVERSIONS</span>
+        <!-- 1. GRID VIEW CONTAINER (Default) -->
+        <div class="works-grid-view active" id="worksGridView">
+          <!-- Featured Projects Showcase (2-Column Grid) -->
+          <div class="works-featured-grid">
+            
+            <!-- Featured Work 1: E-Commerce -->
+            <article class="work-feat-card reveal-item" data-category="web" data-project-id="ecommerce-platform" data-cursor="CASE STUDY" role="button" tabindex="0">
+              <div class="work-feat-img-wrap">
+                <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=650&h=450&fit=crop&q=75&auto=format" alt="E-Commerce Platform" class="work-thumb" loading="lazy">
+                <div class="work-card-glass"></div>
+                <div class="work-badge-pill">
+                  <span class="metric-highlight">+340% CONVERSIONS</span>
+                </div>
+                <div class="work-inspect-pill">
+                  <span>INSPECT CASE</span>
+                  <span class="inspect-arrow">↗</span>
+                </div>
               </div>
-            </div>
-            <div class="work-feat-meta">
-              <div class="work-category-row">
-                <span class="work-cat">WEB DEVELOPMENT · FULL-STACK</span>
-                <span class="work-year">2024</span>
+              <div class="work-feat-meta">
+                <div class="work-category-row">
+                  <span class="work-cat">WEB DEVELOPMENT · FULL-STACK</span>
+                  <span class="work-year">2024</span>
+                </div>
+                <h3 class="work-title">E-Commerce<br>Platform</h3>
+                <p class="work-summary">High-frequency retail experience engineered with Next.js, featuring lightning-fast page transitions, dynamic cart state, and custom checkout flows.</p>
+                <div class="work-tags-list">
+                  <span>Next.js 15</span>
+                  <span>TypeScript</span>
+                  <span>Tailwind CSS</span>
+                  <span>Stripe API</span>
+                </div>
+                <div class="work-footer-link">
+                  <span class="work-link-text">Read Case Study &amp; Metrics</span>
+                  <span class="work-link-arrow">→</span>
+                </div>
               </div>
-              <h3 class="work-title">E-Commerce<br>Platform</h3>
-              <p class="work-summary">High-frequency retail experience engineered with Next.js, featuring lightning-fast page transitions, dynamic cart state, and custom checkout flows.</p>
-              <div class="work-tags-list">
-                <span>Next.js 15</span>
-                <span>TypeScript</span>
-                <span>Tailwind CSS</span>
-                <span>Stripe API</span>
-              </div>
-              <div class="work-footer-link">
-                <span class="work-link-text">Explore Case Study</span>
-                <span class="work-link-arrow">→</span>
-              </div>
-            </div>
-          </article>
+            </article>
 
-          <!-- Featured Work 2: Brand Identity System -->
-          <article class="work-feat-card reveal-item" data-category="design" data-cursor="VIEW">
-            <div class="work-feat-img-wrap">
-              <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=650&h=450&fit=crop&q=75&auto=format" alt="Brand Identity System" class="work-thumb" loading="lazy">
-              <div class="work-card-glass"></div>
-              <div class="work-badge-pill">
-                <span class="metric-highlight">AWARD FINALIST</span>
+            <!-- Featured Work 2: Brand Identity System -->
+            <article class="work-feat-card reveal-item" data-category="design" data-project-id="brand-identity" data-cursor="CASE STUDY" role="button" tabindex="0">
+              <div class="work-feat-img-wrap">
+                <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=650&h=450&fit=crop&q=75&auto=format" alt="Brand Identity System" class="work-thumb" loading="lazy">
+                <div class="work-card-glass"></div>
+                <div class="work-badge-pill">
+                  <span class="metric-highlight">AWARD FINALIST</span>
+                </div>
+                <div class="work-inspect-pill">
+                  <span>INSPECT CASE</span>
+                  <span class="inspect-arrow">↗</span>
+                </div>
               </div>
-            </div>
-            <div class="work-feat-meta">
-              <div class="work-category-row">
-                <span class="work-cat">UI/UX DESIGN · DESIGN SYSTEM</span>
-                <span class="work-year">2024</span>
+              <div class="work-feat-meta">
+                <div class="work-category-row">
+                  <span class="work-cat">UI/UX DESIGN · DESIGN SYSTEM</span>
+                  <span class="work-year">2024</span>
+                </div>
+                <h3 class="work-title">Brand Identity<br>System</h3>
+                <p class="work-summary">Holistic brand architecture and digital design system for an artisanal luxury house — complete design tokens, component library, and digital guidelines.</p>
+                <div class="work-tags-list">
+                  <span>Figma Tokens</span>
+                  <span>Typography System</span>
+                  <span>Color Theory</span>
+                  <span>Design Guide</span>
+                </div>
+                <div class="work-footer-link">
+                  <span class="work-link-text">Read Case Study &amp; Metrics</span>
+                  <span class="work-link-arrow">→</span>
+                </div>
               </div>
-              <h3 class="work-title">Brand Identity<br>System</h3>
-              <p class="work-summary">Holistic brand architecture and digital design system for an artisanal luxury house — complete design tokens, component library, and digital guidelines.</p>
-              <div class="work-tags-list">
-                <span>Figma Tokens</span>
-                <span>Typography System</span>
-                <span>Color Theory</span>
-                <span>Design Guide</span>
-              </div>
-              <div class="work-footer-link">
-                <span class="work-link-text">Explore Case Study</span>
-                <span class="work-link-arrow">→</span>
-              </div>
-            </div>
-          </article>
+            </article>
 
+          </div>
+
+          <!-- Secondary Works Grid (4 Cards) -->
+          <div class="works-secondary-grid" id="worksGrid">
+            
+            <!-- Card 1: Motion Reel -->
+            <article class="work-grid-card reveal-item" data-category="video" data-project-id="motion-reel" data-cursor="WATCH REEL" role="button" tabindex="0">
+              <div class="card-thumb-wrap">
+                <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=450&h=320&fit=crop&q=75&auto=format" alt="Motion Reel 2024" class="work-thumb" loading="lazy">
+                <div class="card-play-overlay">
+                  <span class="play-btn-circle">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <polygon points="5 3 19 12 5 21 5 3"/>
+                    </svg>
+                  </span>
+                </div>
+                <span class="grid-badge">4K REEL</span>
+              </div>
+              <div class="card-info">
+                <div class="card-cat-row">
+                  <span class="work-cat">Video Production</span>
+                  <span class="work-year">2024</span>
+                </div>
+                <h4 class="card-title">Motion Reel 2024</h4>
+                <p class="card-desc">Explosive cinematic montage highlighting motion graphics, color grading, and video pacing.</p>
+              </div>
+            </article>
+
+            <!-- Card 2: Mobile Banking App -->
+            <article class="work-grid-card reveal-item" data-category="design" data-project-id="banking-app" data-cursor="CASE STUDY" role="button" tabindex="0">
+              <div class="card-thumb-wrap">
+                <img src="https://images.unsplash.com/photo-1512941937938-a272e52dc9af?w=450&h=320&fit=crop&q=75&auto=format" alt="Mobile Banking App" class="work-thumb" loading="lazy">
+                <div class="card-play-overlay">
+                  <span class="play-btn-circle">↗</span>
+                </div>
+                <span class="grid-badge">FINTECH UI</span>
+              </div>
+              <div class="card-info">
+                <div class="card-cat-row">
+                  <span class="work-cat">UI/UX Design</span>
+                  <span class="work-year">2024</span>
+                </div>
+                <h4 class="card-title">Neo-Banking Mobile App</h4>
+                <p class="card-desc">Minimalist mobile wealth management interface with biometric authentication and spending graphs.</p>
+              </div>
+            </article>
+
+            <!-- Card 3: Nandini Dev Portfolio -->
+            <article class="work-grid-card reveal-item" data-category="web" data-project-id="nandini-portfolio" data-cursor="EXPLORE" role="button" tabindex="0">
+              <div class="card-thumb-wrap">
+                <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=450&h=320&fit=crop&q=75&auto=format" alt="Nandini Dev Portfolio" class="work-thumb" loading="lazy">
+                <div class="card-play-overlay">
+                  <span class="play-btn-circle">↗</span>
+                </div>
+                <span class="grid-badge live-badge">LIVE SITE ↗</span>
+              </div>
+              <div class="card-info">
+                <div class="card-cat-row">
+                  <span class="work-cat">Creative Development</span>
+                  <span class="work-year">2024</span>
+                </div>
+                <h4 class="card-title">Nandini — Dev Portfolio</h4>
+                <p class="card-desc">Bespoke portfolio website engineered with fluid micro-animations, GSAP, and reactive layout.</p>
+              </div>
+            </article>
+
+            <!-- Card 4: Documentary Short -->
+            <article class="work-grid-card reveal-item" data-category="video" data-project-id="documentary-short" data-cursor="WATCH FILM" role="button" tabindex="0">
+              <div class="card-thumb-wrap">
+                <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=450&h=320&fit=crop&q=75&auto=format" alt="Documentary Short" class="work-thumb" loading="lazy">
+                <div class="card-play-overlay">
+                  <span class="play-btn-circle">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                      <polygon points="5 3 19 12 5 21 5 3"/>
+                    </svg>
+                  </span>
+                </div>
+                <span class="grid-badge">DOCUMENTARY</span>
+              </div>
+              <div class="card-info">
+                <div class="card-cat-row">
+                  <span class="work-cat">Video Editing</span>
+                  <span class="work-year">2023</span>
+                </div>
+                <h4 class="card-title">Documentary Short Film</h4>
+                <p class="card-desc">Atmospheric visual chronicle exploring human craftsmanship and analog culture.</p>
+              </div>
+            </article>
+
+          </div>
         </div>
 
-        <!-- Secondary Works Grid (4 Cards) -->
-        <div class="works-secondary-grid" id="worksGrid">
-          
-          <!-- Card 1: Motion Reel -->
-          <article class="work-grid-card reveal-item" data-category="video" data-cursor="PLAY">
-            <div class="card-thumb-wrap">
-              <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=450&h=320&fit=crop&q=75&auto=format" alt="Motion Reel 2024" class="work-thumb" loading="lazy">
-              <div class="card-play-overlay">
-                <span class="play-btn-circle">
-                  <svg viewBox="0 0 24 24" fill="currentColor">
-                    <polygon points="5 3 19 12 5 21 5 3"/>
-                  </svg>
-                </span>
-              </div>
-              <span class="grid-badge">4K REEL</span>
-            </div>
-            <div class="card-info">
-              <div class="card-cat-row">
-                <span class="work-cat">Video Production</span>
-                <span class="work-year">2024</span>
-              </div>
-              <h4 class="card-title">Motion Reel 2024</h4>
-              <p class="card-desc">Explosive cinematic montage highlighting motion graphics, color grading, and video pacing.</p>
-            </div>
-          </article>
-
-          <!-- Card 2: Mobile Banking App -->
-          <article class="work-grid-card reveal-item" data-category="design" data-cursor="VIEW">
-            <div class="card-thumb-wrap">
-              <img src="https://images.unsplash.com/photo-1512941937938-a272e52dc9af?w=450&h=320&fit=crop&q=75&auto=format" alt="Mobile Banking App" class="work-thumb" loading="lazy">
-              <div class="card-play-overlay">
-                <span class="play-btn-circle">↗</span>
-              </div>
-              <span class="grid-badge">FINTECH UI</span>
-            </div>
-            <div class="card-info">
-              <div class="card-cat-row">
-                <span class="work-cat">UI/UX Design</span>
-                <span class="work-year">2024</span>
-              </div>
-              <h4 class="card-title">Neo-Banking Mobile App</h4>
-              <p class="card-desc">Minimalist mobile wealth management interface with biometric authentication and spending graphs.</p>
-            </div>
-          </article>
-
-          <!-- Card 3: Nandini Dev Portfolio (Live Link) -->
-          <a href="https://nandini-portfolio-bay.vercel.app/" target="_blank" rel="noopener noreferrer" class="work-grid-card reveal-item" data-category="web" data-cursor="VISIT">
-            <div class="card-thumb-wrap">
-              <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=450&h=320&fit=crop&q=75&auto=format" alt="Nandini Dev Portfolio" class="work-thumb" loading="lazy">
-              <div class="card-play-overlay">
-                <span class="play-btn-circle">↗</span>
-              </div>
-              <span class="grid-badge live-badge">LIVE SITE ↗</span>
-            </div>
-            <div class="card-info">
-              <div class="card-cat-row">
-                <span class="work-cat">Creative Development</span>
-                <span class="work-year">2024</span>
-              </div>
-              <h4 class="card-title">Nandini — Dev Portfolio</h4>
-              <p class="card-desc">Bespoke portfolio website engineered with fluid micro-animations, GSAP, and reactive layout.</p>
-            </div>
-          </a>
-
-          <!-- Card 4: Documentary Short -->
-          <article class="work-grid-card reveal-item" data-category="video" data-cursor="WATCH">
-            <div class="card-thumb-wrap">
-              <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=450&h=320&fit=crop&q=75&auto=format" alt="Documentary Short" class="work-thumb" loading="lazy">
-              <div class="card-play-overlay">
-                <span class="play-btn-circle">
-                  <svg viewBox="0 0 24 24" fill="currentColor">
-                    <polygon points="5 3 19 12 5 21 5 3"/>
-                  </svg>
-                </span>
-              </div>
-              <span class="grid-badge">DOCUMENTARY</span>
-            </div>
-            <div class="card-info">
-              <div class="card-cat-row">
-                <span class="work-cat">Video Editing</span>
-                <span class="work-year">2023</span>
-              </div>
-              <h4 class="card-title">Documentary Short Film</h4>
-              <p class="card-desc">Atmospheric visual chronicle exploring human craftsmanship and analog culture.</p>
-            </div>
-          </article>
-
+        <!-- 2. EDITORIAL LIST VIEW CONTAINER (Awwwards Style) -->
+        <div class="works-list-view" id="worksListView">
+          <div class="editorial-list-header">
+            <span>PROJECT</span>
+            <span>DISCIPLINE</span>
+            <span>YEAR</span>
+            <span>DELIVERABLE</span>
+            <span>ACTION</span>
+          </div>
+          <div class="editorial-list-body" id="editorialListBody">
+            <!-- Dynamically populated or rendered -->
+          </div>
+          <!-- Floating Cursor Hover Preview for List Mode -->
+          <div class="list-hover-preview" id="listHoverPreview" aria-hidden="true">
+            <img src="" alt="" id="listHoverImg" class="list-hover-img">
+          </div>
         </div>
+
       </div>
       <div class="section-number-bg" aria-hidden="true">04</div>
     </section>

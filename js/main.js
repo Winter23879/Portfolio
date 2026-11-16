@@ -1,6 +1,6 @@
 /* ============================================================
-   WINTER PORTFOLIO — HIGH-PERFORMANCE INTERACTIVE ENGINE
-   Zero-Jank, Hardware-Accelerated 120 FPS Execution
+   WINTER PORTFOLIO — ADVANCED INTERACTIVE ENGINE (V3)
+   8 Designer Themes · Interactive Case Studies · Dual-Mode Works
    ============================================================ */
 
 (function () {
@@ -13,17 +13,16 @@
   /* ── 2. LENIS SMOOTH SCROLL & GSAP SYNC ─────────────────── */
   const lenis = new Lenis({
     lerp: prefersReduced ? 1 : 0.1,
-    smoothTouch: false, // Let mobile touch momentum stay native & fast
+    smoothTouch: false,
   });
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // Single ticker drives Lenis to prevent RAF race conditions
   gsap.ticker.add((time) => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
   lenis.on('scroll', ScrollTrigger.update);
 
-  /* ── 3. PRECISION CUSTOM CURSOR (DESKTOP ONLY) ──────────── */
+  /* ── 3. PRECISION CUSTOM CURSOR ─────────────────────────── */
   const dot = document.getElementById('cursorDot');
   const ring = document.getElementById('cursorRing');
   const cursorTextEl = document.getElementById('cursorText');
@@ -53,7 +52,6 @@
       }
     }, { passive: true });
 
-    // Smooth ring follow inside GSAP ticker
     gsap.ticker.add(() => {
       if (!ring) return;
       ringX += (mouseX - ringX) * LERP_FACTOR;
@@ -67,23 +65,26 @@
       if (cursorTextEl) cursorTextEl.textContent = text;
     };
 
-    // Attach hover states to interactive targets
-    document.querySelectorAll('a, button, .pillar-card, .skill-pill, .service-bento-card, .process-card, .chip').forEach((el) => {
-      const customCursor = el.getAttribute('data-cursor');
-      const isResume = el.classList.contains('nav-resume');
+    function bindInteractiveCursor() {
+      document.querySelectorAll('a, button, .pillar-card, .skill-pill, .service-bento-card, .process-card, .chip, .work-feat-card, .work-grid-card, .editorial-list-row').forEach((el) => {
+        const customCursor = el.getAttribute('data-cursor');
+        const isResume = el.classList.contains('nav-resume');
 
-      el.addEventListener('mouseenter', () => {
-        if (isResume) {
-          window.setCursor('c-resume', '');
-        } else if (customCursor) {
-          window.setCursor('c-view', customCursor);
-        } else {
-          window.setCursor('c-hover', '');
-        }
+        el.addEventListener('mouseenter', () => {
+          if (isResume) {
+            window.setCursor('c-resume', '');
+          } else if (customCursor) {
+            window.setCursor('c-view', customCursor);
+          } else {
+            window.setCursor('c-hover', '');
+          }
+        });
+
+        el.addEventListener('mouseleave', () => window.setCursor('', ''));
       });
-
-      el.addEventListener('mouseleave', () => window.setCursor('', ''));
-    });
+    }
+    bindInteractiveCursor();
+    window.bindInteractiveCursor = bindInteractiveCursor;
   }
 
   /* ── 4. LIGHTSABER SCROLL PROGRESS BAR ──────────────────── */
@@ -114,7 +115,6 @@
     }
   });
 
-  // Smooth scroll click handler
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
@@ -132,7 +132,6 @@
     });
   });
 
-  // Active section indicator using IntersectionObserver
   const sectionObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -172,34 +171,108 @@
   if (navToggle) navToggle.addEventListener('click', openMobileMenu);
   if (mobileCloseBtn) mobileCloseBtn.addEventListener('click', closeMobileMenu);
 
-  /* ── 7. AMBIENT GLOW THEME SWITCHER ─────────────────────── */
+  /* ── 7. 8 COMPLETE DESIGNER THEMES (COLOR PALETTES) ────── */
   const themes = [
-    { id: 'theme-aurora', label: 'Cyan / Aura' },
-    { id: 'theme-cyber',  label: 'Violet / Cyber' },
-    { id: 'theme-gold',   label: 'Gold / Luxe' },
-    { id: 'theme-emerald',label: 'Emerald / Matrix' }
+    { id: 'theme-aurora',   name: 'Cyan Aurora',     dot: '#38bdf8', desc: 'Electric Cyan & Indigo' },
+    { id: 'theme-cyber',    name: 'Cyber Violet',    dot: '#c084fc', desc: 'Neon Violet & Hyper Pink' },
+    { id: 'theme-emerald',  name: 'Emerald Matrix',  dot: '#34d399', desc: 'Bio-Mint & Deep Teal' },
+    { id: 'theme-gold',     name: 'Solar Sunset',    dot: '#fbbf24', desc: 'Obsidian Amber & Bronze' },
+    { id: 'theme-crimson',  name: 'Crimson Noir',    dot: '#fb7185', desc: 'Blood Rose & Coral' },
+    { id: 'theme-sapphire', name: 'Midnight Blue',   dot: '#60a5fa', desc: 'Abyssal Royal Cobalt' },
+    { id: 'theme-tokyo',    name: 'Tokyo Neon',      dot: '#a3e635', desc: 'Toxic Lime & Cyan' },
+    { id: 'theme-mono',     name: 'Titanium Mono',   dot: '#ffffff', desc: 'Diamond White & Chrome' }
   ];
-  let currentThemeIdx = 0;
+
+  let currentThemeIndex = 0;
   const themeToggleBtn = document.getElementById('themeToggleBtn');
+  const themeColorDot = document.getElementById('themeColorDot');
   const themeNameLabel = document.getElementById('themeNameLabel');
+  const toast = document.getElementById('toastNotification');
+  const toastMsg = document.getElementById('toastMsg');
+  const toastSwatch = document.getElementById('toastSwatch');
+  let toastTimer = null;
+
+  function showToast(message, dotColor = null) {
+    if (!toast) return;
+    if (toastMsg) toastMsg.textContent = message;
+    if (toastSwatch) {
+      if (dotColor) {
+        toastSwatch.style.display = 'inline-block';
+        toastSwatch.style.background = dotColor;
+        toastSwatch.style.boxShadow = `0 0 8px ${dotColor}`;
+      } else {
+        toastSwatch.style.display = 'none';
+      }
+    }
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('show');
+    }, 2800);
+  }
+
+  function applyTheme(idx) {
+    const nextTheme = themes[idx];
+    themes.forEach((t) => document.body.classList.remove(t.id));
+    document.body.classList.add(nextTheme.id);
+
+    if (themeColorDot) themeColorDot.style.background = nextTheme.dot;
+    if (themeNameLabel) themeNameLabel.textContent = nextTheme.name;
+
+    showToast(`Palette: ${nextTheme.name} (${nextTheme.desc})`, nextTheme.dot);
+  }
 
   if (themeToggleBtn) {
     themeToggleBtn.addEventListener('click', () => {
-      currentThemeIdx = (currentThemeIdx + 1) % themes.length;
-      const nextTheme = themes[currentThemeIdx];
+      // Pick random theme from the remaining 7 themes
+      let nextIdx;
+      do {
+        nextIdx = Math.floor(Math.random() * themes.length);
+      } while (nextIdx === currentThemeIndex);
 
-      themes.forEach((t) => document.body.classList.remove(t.id));
-      document.body.classList.add(nextTheme.id);
+      currentThemeIndex = nextIdx;
+      applyTheme(currentThemeIndex);
 
-      if (themeNameLabel) {
-        themeNameLabel.textContent = nextTheme.label;
-      }
-
-      showToast(`Switched atmosphere to ${nextTheme.label}`);
+      gsap.fromTo(themeToggleBtn,
+        { scale: 0.92 },
+        { scale: 1, duration: 0.4, ease: 'back.out(2)' }
+      );
     });
   }
 
-  /* ── 8. LIVE LOCAL TIME CLOCK (NELLORE, INDIA - IST) ─────── */
+  /* ── 8. HERO ROTATING TITLE KEYWORD ─────────────────────── */
+  (function initHeroRotator() {
+    const rotator = document.getElementById('rotatorLabel');
+    if (!rotator) return;
+
+    const phrases = [
+      'MOTION & FILM DIRECTION',
+      'UI/UX ARCHITECTURE',
+      'CREATIVE DEVELOPMENT',
+      'NEXT.JS & GSAP SYSTEMS',
+      'BRAND IDENTITY SYSTEMS'
+    ];
+    let phraseIdx = 0;
+
+    setInterval(() => {
+      phraseIdx = (phraseIdx + 1) % phrases.length;
+      gsap.to(rotator, {
+        opacity: 0,
+        y: -10,
+        duration: 0.3,
+        ease: 'power2.in',
+        onComplete: () => {
+          rotator.textContent = phrases[phraseIdx];
+          gsap.fromTo(rotator,
+            { opacity: 0, y: 10 },
+            { opacity: 1, y: 0, duration: 0.4, ease: 'expo.out' }
+          );
+        }
+      });
+    }, 2800);
+  })();
+
+  /* ── 9. LIVE CLOCK (NELLORE, INDIA - IST) ────────────────── */
   function updateLiveClock() {
     const clockEl = document.getElementById('heroClock');
     if (!clockEl) return;
@@ -208,14 +281,15 @@
       timeZone: 'Asia/Kolkata',
       hour: '2-digit',
       minute: '2-digit',
+      second: '2-digit',
       hour12: true
     };
     clockEl.textContent = `${now.toLocaleTimeString('en-US', options)} IST`;
   }
   updateLiveClock();
-  setInterval(updateLiveClock, 10000); // 10s interval is ultra-light on battery & CPU
+  setInterval(updateLiveClock, 1000);
 
-  /* ── 9. HERO INTERACTIVE 3D CARD STACK ──────────────────── */
+  /* ── 10. HERO INTERACTIVE 3D CARD STACK ─────────────────── */
   (function initCardDeck() {
     const stack = document.getElementById('cardStack');
     if (!stack) return;
@@ -224,7 +298,6 @@
     const dots = document.querySelectorAll('.deck-dot');
     let activeCardIndex = 2;
 
-    // Fast entrance
     gsap.from(cards, {
       y: 30,
       opacity: 0,
@@ -234,7 +307,6 @@
       delay: 0.2
     });
 
-    // Lightweight 3D Tilt on Hover (Desktop only)
     if (!isTouchDevice) {
       stack.addEventListener('mousemove', (e) => {
         const rect = stack.getBoundingClientRect();
@@ -258,7 +330,6 @@
       });
     }
 
-    // Click to cycle cards in stack
     function cycleStack() {
       const cBack = stack.querySelector('.card-back');
       const cMid = stack.querySelector('.card-mid');
@@ -284,29 +355,294 @@
     stack.addEventListener('click', cycleStack);
   })();
 
-  /* ── 10. INTERACTIVE CAPABILITY TABS (ABOUT) ─────────────── */
-  (function initCapsTabs() {
-    const tabs = document.querySelectorAll('.caps-tab');
-    const panels = document.querySelectorAll('.caps-panel');
+  /* ── 11. COMPLETE PROJECT DATABASE ──────────────────────── */
+  const projectsData = [
+    {
+      id: 'ecommerce-platform',
+      title: 'E-Commerce Platform',
+      category: 'web',
+      categoryLabel: 'WEB DEVELOPMENT · FULL-STACK',
+      year: '2024',
+      client: 'Luxora Global Retail',
+      role: 'Lead Full-Stack & UI Architect',
+      metricVal: '+340% CONVERSIONS',
+      metricLbl: 'Revenue & Speed Transformation',
+      desc: 'Architected and built a high-frequency headless retail portal using Next.js 15 App Router, TypeScript, and Stripe API. Designed instantaneous sub-100ms page transitions, an optimistic real-time cart state, and custom checkout flows resulting in a massive boost in completed sales.',
+      techStack: ['Next.js 15', 'TypeScript', 'Tailwind CSS', 'Stripe API', 'GSAP', 'Zustand'],
+      image: 'https://images.unsplash.com/photo-1547658719-da2b51169166?w=1000&fit=crop&q=80&auto=format',
+      link: '#'
+    },
+    {
+      id: 'brand-identity',
+      title: 'Brand Identity System',
+      category: 'design',
+      categoryLabel: 'UI/UX DESIGN · DESIGN SYSTEM',
+      year: '2024',
+      client: 'Aethelgard Maison',
+      role: 'Creative Director & Brand Architect',
+      metricVal: 'AWARD FINALIST',
+      metricLbl: 'Selected by Design Excellence Jury',
+      desc: 'Holistic brand overhaul and unified digital design system for an artisanal luxury house. Delivered an exhaustive Figma token hierarchy, responsive UI component kit with 200+ variants, typography pairing matrix, and multi-channel style playbook.',
+      techStack: ['Figma Tokens', 'Typography Matrix', 'Color Theory', 'Design Systems', 'Micro-Interactions'],
+      image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1000&fit=crop&q=80&auto=format',
+      link: '#'
+    },
+    {
+      id: 'motion-reel',
+      title: 'Motion Reel 2024',
+      category: 'video',
+      categoryLabel: 'VIDEO PRODUCTION · 4K REEL',
+      year: '2024',
+      client: 'Winter Studios Anthology',
+      role: 'Director, Editor & Colorist',
+      metricVal: '1.2M+ VIEWS',
+      metricLbl: 'Viral Engagement Across Channels',
+      desc: 'A dynamic 84-second cinematic showreel spotlighting commercial edits, 3D typography, kinetic titles, and DaVinci Resolve color grading. Packed with sound design and multi-layered visual rhythm engineered for high viewer retention.',
+      techStack: ['After Effects', 'Premiere Pro', 'DaVinci Resolve', 'Cinema 4D', 'Sound Design'],
+      image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1000&fit=crop&q=80&auto=format',
+      link: '#'
+    },
+    {
+      id: 'banking-app',
+      title: 'Neo-Banking Mobile App',
+      category: 'design',
+      categoryLabel: 'UI/UX DESIGN · FINTECH',
+      year: '2024',
+      client: 'Strata Wealth Technologies',
+      role: 'Senior Product Designer',
+      metricVal: '4.9★ APP RATING',
+      metricLbl: 'Featured in Fintech Product Week',
+      desc: 'Human-centered mobile interface designed for next-generation personal wealth management. Featuring biometric verification, visual spending projections, live portfolio distribution graphs, and instantaneous multi-currency conversion flows.',
+      techStack: ['Mobile UI/UX', 'iOS / Android', 'Design Tokens', 'User Research', 'Figma Prototyping'],
+      image: 'https://images.unsplash.com/photo-1512941937938-a272e52dc9af?w=1000&fit=crop&q=80&auto=format',
+      link: '#'
+    },
+    {
+      id: 'nandini-portfolio',
+      title: 'Nandini — Dev Portfolio',
+      category: 'web',
+      categoryLabel: 'CREATIVE DEVELOPMENT · GSAP',
+      year: '2024',
+      client: 'Nandini Developer',
+      role: 'Creative Engineer & UI Designer',
+      metricVal: '100 LIGHTHOUSE',
+      metricLbl: 'Flawless 60fps & Web Accessibility',
+      desc: 'Custom interactive developer portfolio website engineered with fluid micro-animations, GSAP ScrollTrigger, Lenis smooth scrolling, and responsive layout architecture. Fully deployed on Vercel with zero performance degradation.',
+      techStack: ['React', 'GSAP ScrollTrigger', 'Lenis Smooth Scroll', 'Tailwind CSS', 'Vercel Deployment'],
+      image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1000&fit=crop&q=80&auto=format',
+      link: 'https://nandini-portfolio-bay.vercel.app/'
+    },
+    {
+      id: 'documentary-short',
+      title: 'Documentary Short Film',
+      category: 'video',
+      categoryLabel: 'VIDEO EDITING · CINEMATOGRAPHY',
+      year: '2023',
+      client: 'Heritage Craft Collective',
+      role: 'Cinematographer & Lead Editor',
+      metricVal: 'OFFICIAL SELECTION',
+      metricLbl: 'Indie Visual Arts Film Festival',
+      desc: 'Atmospheric visual chronicle capturing the vanishing art of hand-crafted ceramics and analog textiles. Shot on 4K anamorphic lenses with rich tactile color palettes and authentic acoustic soundscapes.',
+      techStack: ['4K Anamorphic', 'Color Grading', 'Documentary Direction', 'Audio Mastering'],
+      image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1000&fit=crop&q=80&auto=format',
+      link: '#'
+    }
+  ];
 
-    tabs.forEach((tab) => {
-      tab.addEventListener('click', () => {
-        const cat = tab.dataset.category;
-        tabs.forEach((t) => t.classList.remove('active'));
-        tab.classList.add('active');
+  /* ── 12. CASE STUDY MODAL LOGIC ─────────────────────────── */
+  const projectModal = document.getElementById('projectModal');
+  const modalBackdrop = document.getElementById('modalBackdrop');
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
+  const modalImg = document.getElementById('modalImg');
+  const modalCategory = document.getElementById('modalCategory');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalMetricVal = document.getElementById('modalMetricVal');
+  const modalMetricLbl = document.getElementById('modalMetricLbl');
+  const modalDesc = document.getElementById('modalDesc');
+  const modalClient = document.getElementById('modalClient');
+  const modalRole = document.getElementById('modalRole');
+  const modalLiveLink = document.getElementById('modalLiveLink');
+  const modalTechStack = document.getElementById('modalTechStack');
+  const modalShareBtn = document.getElementById('modalShareBtn');
 
-        panels.forEach((panel) => {
-          if (panel.id === `panel-${cat}`) {
-            panel.classList.add('active');
-          } else {
-            panel.classList.remove('active');
+  function openProjectModal(projectId) {
+    const project = projectsData.find((p) => p.id === projectId) || projectsData[0];
+
+    if (modalImg) {
+      modalImg.src = project.image;
+      modalImg.alt = project.title;
+    }
+    if (modalCategory) modalCategory.textContent = `${project.categoryLabel} · ${project.year}`;
+    if (modalTitle) modalTitle.textContent = project.title;
+    if (modalMetricVal) modalMetricVal.textContent = project.metricVal;
+    if (modalMetricLbl) modalMetricLbl.textContent = project.metricLbl;
+    if (modalDesc) modalDesc.textContent = project.desc;
+    if (modalClient) modalClient.textContent = project.client;
+    if (modalRole) modalRole.textContent = project.role;
+
+    if (modalLiveLink) {
+      if (project.link && project.link !== '#') {
+        modalLiveLink.href = project.link;
+        modalLiveLink.style.display = 'inline-flex';
+      } else {
+        modalLiveLink.href = '#';
+        modalLiveLink.style.display = 'inline-flex';
+      }
+    }
+
+    if (modalTechStack) {
+      modalTechStack.innerHTML = project.techStack
+        .map((tag) => `<span class="modal-tech-tag">${tag}</span>`)
+        .join('');
+    }
+
+    projectModal.classList.add('open');
+    projectModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeProjectModal() {
+    if (!projectModal) return;
+    projectModal.classList.remove('open');
+    projectModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeProjectModal);
+  if (modalBackdrop) modalBackdrop.addEventListener('click', closeProjectModal);
+
+  if (modalShareBtn) {
+    modalShareBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(window.location.href);
+      showToast('Project link copied to clipboard! 🔗');
+    });
+  }
+
+  // Attach click listener on all work cards
+  document.querySelectorAll('[data-project-id]').forEach((card) => {
+    card.addEventListener('click', (e) => {
+      // If clicking link inside card, allow link
+      if (e.target.tagName.toLowerCase() === 'a' && e.target.getAttribute('href') !== '#') {
+        return;
+      }
+      e.preventDefault();
+      const pId = card.getAttribute('data-project-id');
+      openProjectModal(pId);
+    });
+  });
+
+  /* ── 13. SHOWREEL MODAL LOGIC ───────────────────────────── */
+  const showreelModal = document.getElementById('showreelModal');
+  const showreelBackdrop = document.getElementById('showreelBackdrop');
+  const showreelCloseBtn = document.getElementById('showreelCloseBtn');
+  const openShowreelBtn = document.getElementById('openShowreelBtn');
+
+  function openShowreel() {
+    if (!showreelModal) return;
+    showreelModal.classList.add('open');
+    showreelModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeShowreel() {
+    if (!showreelModal) return;
+    showreelModal.classList.remove('open');
+    showreelModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  if (openShowreelBtn) openShowreelBtn.addEventListener('click', openShowreel);
+  if (showreelCloseBtn) showreelCloseBtn.addEventListener('click', closeShowreel);
+  if (showreelBackdrop) showreelBackdrop.addEventListener('click', closeShowreel);
+
+  // Global ESC key listener for both modals
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeProjectModal();
+      closeShowreel();
+      closeMobileMenu();
+    }
+  });
+
+  /* ── 14. WORKS VIEW SWITCHER (GRID VS EDITORIAL LIST) ───── */
+  const viewGridBtn = document.getElementById('viewGridBtn');
+  const viewListBtn = document.getElementById('viewListBtn');
+  const worksGridView = document.getElementById('worksGridView');
+  const worksListView = document.getElementById('worksListView');
+  const editorialListBody = document.getElementById('editorialListBody');
+  const listHoverPreview = document.getElementById('listHoverPreview');
+  const listHoverImg = document.getElementById('listHoverImg');
+
+  function renderEditorialList(filter = 'all') {
+    if (!editorialListBody) return;
+    const filtered = filter === 'all'
+      ? projectsData
+      : projectsData.filter((p) => p.category === filter);
+
+    editorialListBody.innerHTML = filtered.map((p) => `
+      <div class="editorial-list-row" data-project-id="${p.id}" data-category="${p.category}" data-cursor="VIEW">
+        <span class="erow-title">${p.title}</span>
+        <span class="erow-cat">${p.categoryLabel.split('·')[0].trim()}</span>
+        <span class="erow-year">${p.year}</span>
+        <span class="erow-deliverable">${p.metricVal}</span>
+        <span class="erow-action">Inspect ↗</span>
+      </div>
+    `).join('');
+
+    // Attach row events
+    editorialListBody.querySelectorAll('.editorial-list-row').forEach((row) => {
+      const pId = row.dataset.projectId;
+      const proj = projectsData.find((p) => p.id === pId);
+
+      row.addEventListener('click', () => openProjectModal(pId));
+
+      if (!isTouchDevice && listHoverPreview && listHoverImg) {
+        row.addEventListener('mouseenter', () => {
+          if (proj) {
+            listHoverImg.src = proj.image;
+            listHoverPreview.classList.add('active');
           }
         });
-      });
-    });
-  })();
 
-  /* ── 11. SELECTED WORKS FILTER SYSTEM ───────────────────── */
+        row.addEventListener('mousemove', (e) => {
+          listHoverPreview.style.left = `${e.clientX + 30}px`;
+          listHoverPreview.style.top = `${e.clientY - 40}px`;
+        });
+
+        row.addEventListener('mouseleave', () => {
+          listHoverPreview.classList.remove('active');
+        });
+      }
+    });
+
+    if (window.bindInteractiveCursor) window.bindInteractiveCursor();
+  }
+
+  if (viewGridBtn && viewListBtn) {
+    viewGridBtn.addEventListener('click', () => {
+      viewGridBtn.classList.add('active');
+      viewListBtn.classList.remove('active');
+      if (worksGridView) worksGridView.classList.remove('hidden');
+      if (worksListView) worksListView.classList.remove('active');
+      ScrollTrigger.refresh();
+    });
+
+    viewListBtn.addEventListener('click', () => {
+      viewListBtn.classList.add('active');
+      viewGridBtn.classList.remove('active');
+      if (worksGridView) worksGridView.classList.add('hidden');
+      if (worksListView) worksListView.classList.add('active');
+      renderEditorialList(getActiveFilter());
+      ScrollTrigger.refresh();
+    });
+  }
+
+  function getActiveFilter() {
+    const activeBtn = document.querySelector('.filter-btn.active');
+    return activeBtn ? activeBtn.dataset.filter : 'all';
+  }
+
+  /* ── 15. WORKS FILTER SYSTEM ────────────────────────────── */
   (function initWorksFilter() {
     const filterBtns = document.querySelectorAll('.filter-btn');
     const allWorkCards = document.querySelectorAll('.work-feat-card, .work-grid-card');
@@ -322,33 +658,26 @@
         btn.classList.add('active');
         btn.setAttribute('aria-selected', 'true');
 
+        // Filter Grid View
         allWorkCards.forEach((card) => {
           const category = card.dataset.category;
           const shouldShow = filter === 'all' || category === filter;
           card.style.display = shouldShow ? 'flex' : 'none';
         });
 
+        // Filter List View if active
+        if (worksListView && worksListView.classList.contains('active')) {
+          renderEditorialList(filter);
+        }
+
         ScrollTrigger.refresh();
       });
     });
   })();
 
-  /* ── 12. ONE-CLICK EMAIL COPY & TOAST NOTIFICATION ───────── */
+  /* ── 16. ONE-CLICK EMAIL COPY & TOAST NOTIFICATION ───────── */
   const copyBtn = document.getElementById('copyEmailBtn');
-  const toast = document.getElementById('toastNotification');
-  const toastMsg = document.getElementById('toastMsg');
   const emailLink = document.getElementById('contactEmailLink');
-  let toastTimer = null;
-
-  function showToast(message) {
-    if (!toast) return;
-    if (toastMsg) toastMsg.textContent = message;
-    toast.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => {
-      toast.classList.remove('show');
-    }, 2800);
-  }
 
   function copyEmailToClipboard(e) {
     e.preventDefault();
@@ -367,7 +696,7 @@
     });
   }
 
-  /* ── 13. CONTACT FORM & CATEGORY CHIPS ──────────────────── */
+  /* ── 17. CONTACT FORM & CATEGORY CHIPS ──────────────────── */
   (function initContactForm() {
     const chips = document.querySelectorAll('.chip');
     const projectTypeInput = document.getElementById('projectTypeInput');
@@ -409,7 +738,29 @@
     }
   })();
 
-  /* ── 14. BACK TO TOP BUTTON ─────────────────────────────── */
+  /* ── 18. CAPABILITY TABS (ABOUT) ────────────────────────── */
+  (function initCapsTabs() {
+    const tabs = document.querySelectorAll('.caps-tab');
+    const panels = document.querySelectorAll('.caps-panel');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const cat = tab.dataset.category;
+        tabs.forEach((t) => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        panels.forEach((panel) => {
+          if (panel.id === `panel-${cat}`) {
+            panel.classList.add('active');
+          } else {
+            panel.classList.remove('active');
+          }
+        });
+      });
+    });
+  })();
+
+  /* ── 19. BACK TO TOP BUTTON ─────────────────────────────── */
   const backToTopBtn = document.getElementById('backToTopBtn');
   if (backToTopBtn) {
     backToTopBtn.addEventListener('click', () => {
@@ -420,15 +771,14 @@
     });
   }
 
-  /* ── 15. DYNAMIC COPYRIGHT YEAR ─────────────────────────── */
+  /* ── 20. DYNAMIC COPYRIGHT YEAR ─────────────────────────── */
   const yearEl = document.getElementById('currentYear');
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
 
-  /* ── 16. GSAP STAGGER REVEAL ORCHESTRATION ──────────────── */
+  /* ── 21. GSAP ENTRANCE & SCROLL REVEALS ─────────────────── */
   if (!prefersReduced) {
-    // Hero Entrance
     gsap.fromTo('.hero-section .reveal-item',
       { opacity: 0, y: 35 },
       {
@@ -441,7 +791,6 @@
       }
     );
 
-    // Section reveal on scroll
     document.querySelectorAll('.section:not(.hero-section)').forEach((section) => {
       const items = section.querySelectorAll('.reveal-item');
       if (!items.length) return;
@@ -470,7 +819,7 @@
     });
   }
 
-  /* ── 17. WINDOW LOAD REFRESH ────────────────────────────── */
+  /* ── 22. WINDOW LOAD REFRESH ────────────────────────────── */
   window.addEventListener('load', () => {
     ScrollTrigger.refresh();
   });
