@@ -88,7 +88,7 @@
     });
 
     // Hover interactive elements
-    document.querySelectorAll('a, button, .skill, .service-card, .work-card, .work-feat, .expertise-item, .hero-frequency-ribbon, .hero-period, .dmode-tab').forEach((el) => {
+    document.querySelectorAll('a, button, .skill, .service-card, .work-card, .work-feat, .expertise-item, .hero-frequency-ribbon, .hero-period, .dmode-tab, .hero-recruiter-btn, .c-tab, .cf-btn, .dossier-btn, .dossier-close-btn').forEach((el) => {
       const isView = el.hasAttribute('data-cursor');
       const customLabel = el.getAttribute('data-cursor') || 'VIEW';
       const isResume = el.classList.contains('nav-resume');
@@ -112,14 +112,14 @@
 
   /* ── 4. EIGHT MATCHING DESIGNER THEME PALETTES ───────────── */
   const themes = [
-    { id: 'theme-cyan',     name: 'Cyan Aurora',    dot: '#22d3ee', desc: 'Electric Cyan & Deep Teal' },
-    { id: 'theme-violet',   name: 'Cyber Violet',   dot: '#c084fc', desc: 'Ultraviolet & Deep Nebula' },
-    { id: 'theme-emerald',  name: 'Emerald Matrix', dot: '#10b981', desc: 'Matrix Green & Cyber Emerald' },
-    { id: 'theme-sunset',   name: 'Solar Sunset',   dot: '#f59e0b', desc: 'Solar Amber & Dark Flare' },
-    { id: 'theme-crimson',  name: 'Crimson Noir',   dot: '#fb7185', desc: 'Blood Rose & Obsidian' },
-    { id: 'theme-sapphire', name: 'Midnight Blue',  dot: '#60a5fa', desc: 'Royal Sapphire & Navy' },
-    { id: 'theme-tokyo',    name: 'Tokyo Neon',     dot: '#a3e635', desc: 'Toxic Lime & Volt Cyan' },
-    { id: 'theme-mono',     name: 'Titanium Mono',  dot: '#ffffff', desc: 'Diamond White & Chrome' }
+    { id: 'theme-cyan', name: 'Cyan Aurora', dot: '#22d3ee', desc: 'Electric Cyan & Deep Teal' },
+    { id: 'theme-violet', name: 'Cyber Violet', dot: '#c084fc', desc: 'Ultraviolet & Deep Nebula' },
+    { id: 'theme-emerald', name: 'Emerald Matrix', dot: '#10b981', desc: 'Matrix Green & Cyber Emerald' },
+    { id: 'theme-sunset', name: 'Solar Sunset', dot: '#f59e0b', desc: 'Solar Amber & Dark Flare' },
+    { id: 'theme-crimson', name: 'Crimson Noir', dot: '#fb7185', desc: 'Blood Rose & Obsidian' },
+    { id: 'theme-sapphire', name: 'Midnight Blue', dot: '#60a5fa', desc: 'Royal Sapphire & Navy' },
+    { id: 'theme-tokyo', name: 'Tokyo Neon', dot: '#a3e635', desc: 'Toxic Lime & Volt Cyan' },
+    { id: 'theme-mono', name: 'Titanium Mono', dot: '#ffffff', desc: 'Diamond White & Chrome' }
   ];
 
   let currentThemeIndex = 0;
@@ -308,217 +308,212 @@
     });
   })();
 
-  /* ── 9. HERO COMMAND CENTER & HOLOGRAPHIC DISCIPLINE ENGINE ─ */
-  (function initHeroCommandCenter() {
-    const stack = document.getElementById('cardStack');
-    const expertiseItems = document.querySelectorAll('.expertise-item');
-    const modeTabs = document.querySelectorAll('.dmode-tab');
-    const decoRings = document.getElementById('decoRings');
-    const decoOrbit = document.getElementById('decoOrbit');
-    const heroPeriod = document.getElementById('heroPeriod');
-    const freqRibbon = document.querySelector('.hero-frequency-ribbon');
-    const freqVal = document.getElementById('freqVal');
-    const freqBars = document.getElementById('freqBars');
+  /* ── 9. EXECUTIVE RECRUITER COMMAND DECK & VIEWPORT ENGINE ─ */
+  (function initExecutiveRecruiterDeck() {
+    // 1. Dynamic Specialty Morph Ticker
+    const tickerTexts = document.querySelectorAll('#tickerSlider .ticker-text');
+    let currentTickerIdx = 0;
+    let tickerTimer = null;
 
-    if (!stack) return;
-
-    const cards = Array.from(stack.querySelectorAll('.stack-card'));
-    let currentDiscipline = 0;
-    const disciplineFreqs = ['432Hz', '528Hz', '852Hz'];
-    const extraFreqs = ['432Hz', '528Hz', '639Hz', '741Hz', '852Hz', '963Hz'];
-    let extraFreqIdx = 0;
-
-    // Initial entrance animation
-    gsap.from(cards, {
-      y: -35,
-      opacity: 0,
-      duration: 1,
-      ease: 'expo.out',
-      stagger: 0.12,
-      delay: 0.5
-    });
-
-    if (decoRings) {
-      gsap.from(decoRings, {
-        scale: 0.7,
-        opacity: 0,
-        duration: 1.2,
-        ease: 'expo.out',
-        delay: 0.3
-      });
+    if (tickerTexts.length > 1) {
+      tickerTimer = setInterval(() => {
+        tickerTexts[currentTickerIdx].classList.remove('active');
+        currentTickerIdx = (currentTickerIdx + 1) % tickerTexts.length;
+        tickerTexts[currentTickerIdx].classList.add('active');
+      }, 2900);
     }
 
-    if (decoOrbit) {
-      gsap.from(decoOrbit, {
-        scale: 0.8,
-        opacity: 0,
-        duration: 1.4,
-        ease: 'expo.out',
-        delay: 0.4
-      });
-    }
+    // 2. Project Viewport Console
+    const consoleTabs = document.querySelectorAll('#consoleTabs .c-tab');
+    const consoleSlides = document.querySelectorAll('#consoleSlides .c-slide');
+    const consoleChannel = document.getElementById('consoleChannel');
+    const consoleScrubFill = document.getElementById('consoleScrubFill');
+    const consoleTime = document.getElementById('consoleTime');
+    const consolePrevBtn = document.getElementById('consolePrevBtn');
+    const consoleNextBtn = document.getElementById('consoleNextBtn');
+    const consoleScreen = document.getElementById('consoleScreen');
+    const consoleWindow = document.querySelector('.console-window');
 
-    // Synchronized discipline switcher
-    function setDiscipline(idx) {
-      currentDiscipline = ((idx % 3) + 3) % 3;
+    const feedLabels = [
+      'FEED_01: MOTION REEL',
+      'FEED_02: UI/UX SYSTEM',
+      'FEED_03: WEB ENGINE'
+    ];
+    const feedTimes = ['00:18', '00:42', '01:15'];
 
-      // 1. Sync expertise items on the left
-      expertiseItems.forEach((item) => {
-        const d = Number(item.getAttribute('data-discipline'));
-        item.classList.toggle('active', d === currentDiscipline);
-      });
+    let currentFeed = 0;
+    let scrubTween = null;
 
-      // 2. Sync tactical tabs above deck
-      modeTabs.forEach((tab) => {
+    function setFeed(idx) {
+      currentFeed = ((idx % consoleSlides.length) + consoleSlides.length) % consoleSlides.length;
+
+      // Update tabs
+      consoleTabs.forEach((tab) => {
         const d = Number(tab.getAttribute('data-discipline'));
-        tab.classList.toggle('active', d === currentDiscipline);
+        tab.classList.toggle('active', d === currentFeed);
       });
 
-      // 3. Arrange 3D card deck
-      cards.forEach((card) => {
-        const cardIdx = Number(card.getAttribute('data-index'));
-        card.classList.remove('card-front', 'card-mid', 'card-back');
+      // Update slides
+      consoleSlides.forEach((slide) => {
+        const d = Number(slide.getAttribute('data-index'));
+        slide.classList.toggle('active', d === currentFeed);
+      });
 
-        if (cardIdx === currentDiscipline) {
-          card.classList.add('card-front');
-          gsap.fromTo(card,
-            { scale: 0.94 },
-            { scale: 1, duration: 0.45, ease: 'back.out(1.8)' }
-          );
-        } else if (cardIdx === (currentDiscipline + 1) % 3) {
-          card.classList.add('card-mid');
-        } else {
-          card.classList.add('card-back');
+      // Update channel label & time
+      if (consoleChannel && feedLabels[currentFeed]) {
+        consoleChannel.textContent = feedLabels[currentFeed];
+      }
+      if (consoleTime && feedTimes[currentFeed]) {
+        consoleTime.textContent = feedTimes[currentFeed];
+      }
+
+      // Restart scrubber animation
+      startScrubber();
+    }
+
+    function startScrubber() {
+      if (!consoleScrubFill) return;
+      if (scrubTween) scrubTween.kill();
+
+      gsap.set(consoleScrubFill, { width: '0%' });
+      scrubTween = gsap.to(consoleScrubFill, {
+        width: '100%',
+        duration: 5.5,
+        ease: 'none',
+        onComplete: () => {
+          setFeed(currentFeed + 1);
         }
       });
-
-      // 4. Update frequency indicator
-      if (freqVal && disciplineFreqs[currentDiscipline]) {
-        freqVal.textContent = disciplineFreqs[currentDiscipline];
-      }
     }
 
-    // Discipline items interaction (hover & click)
-    expertiseItems.forEach((item) => {
-      const d = Number(item.getAttribute('data-discipline'));
-
-      item.addEventListener('click', (e) => {
-        e.preventDefault();
-        setDiscipline(d);
-      });
-
-      if (!isTouchDevice) {
-        item.addEventListener('mouseenter', () => {
-          setDiscipline(d);
-        });
-      }
-    });
-
-    // Tactical mode tabs interaction
-    modeTabs.forEach((tab) => {
+    // Tab clicks
+    consoleTabs.forEach((tab) => {
       tab.addEventListener('click', (e) => {
         e.preventDefault();
         const d = Number(tab.getAttribute('data-discipline'));
-        setDiscipline(d);
+        setFeed(d);
       });
     });
 
-    // 3D Card Stack click / tap to cycle
-    stack.addEventListener('click', (e) => {
-      // Don't intercept clicks on inner links if user specifically clicked a link
-      setDiscipline(currentDiscipline + 1);
+    // Prev / Next button controls
+    if (consolePrevBtn) {
+      consolePrevBtn.addEventListener('click', () => setFeed(currentFeed - 1));
+    }
+    if (consoleNextBtn) {
+      consoleNextBtn.addEventListener('click', () => setFeed(currentFeed + 1));
+    }
 
-      if (isTouchDevice) {
-        stack.classList.add('fanned');
-        setTimeout(() => stack.classList.remove('fanned'), 1200);
-      }
-    });
-
-    // 3D Gyroscopic tilt on front card for desktop
-    if (!isTouchDevice) {
-      let isHovered = false;
-
-      stack.addEventListener('mouseenter', () => { isHovered = true; });
-      stack.addEventListener('mouseleave', () => {
-        isHovered = false;
-        const front = stack.querySelector('.stack-card.card-front');
-        if (front) {
-          gsap.to(front, {
-            rotationX: 0,
-            rotationY: 0,
-            ease: 'elastic.out(1, 0.4)',
-            duration: 0.8
-          });
-        }
+    // Hover pauses scrubber
+    if (consoleScreen) {
+      consoleScreen.addEventListener('mouseenter', () => {
+        if (scrubTween) scrubTween.pause();
       });
+      consoleScreen.addEventListener('mouseleave', () => {
+        if (scrubTween) scrubTween.resume();
+      });
+      // Click screen to advance
+      consoleScreen.addEventListener('click', () => {
+        setFeed(currentFeed + 1);
+      });
+    }
 
-      stack.addEventListener('mousemove', (e) => {
-        if (!isHovered) return;
-        const front = stack.querySelector('.stack-card.card-front');
-        if (!front) return;
-
-        const rect = front.getBoundingClientRect();
+    // 3D gyroscopic tilt on console window for desktop
+    if (!isTouchDevice && consoleWindow) {
+      consoleWindow.addEventListener('mousemove', (e) => {
+        const rect = consoleWindow.getBoundingClientRect();
         const cx = rect.left + rect.width / 2;
         const cy = rect.top + rect.height / 2;
         const dx = (e.clientX - cx) / (rect.width / 2);
         const dy = (e.clientY - cy) / (rect.height / 2);
 
-        gsap.to(front, {
-          rotationX: -dy * 9,
-          rotationY: dx * 9,
-          transformPerspective: 950,
+        gsap.to(consoleWindow, {
+          rotationX: -dy * 6,
+          rotationY: dx * 6,
+          transformPerspective: 1100,
           ease: 'power2.out',
           duration: 0.35
         });
       }, { passive: true });
-    }
 
-    // Tactical Radar Rings & Orbit recoil shockwave game
-    if (decoRings) {
-      decoRings.addEventListener('click', (e) => {
-        // Shockwave recoil on rings
-        gsap.fromTo(decoRings,
-          { scale: 0.92 },
-          { scale: 1.08, duration: 0.14, ease: 'power2.out', yoyo: true, repeat: 1 }
-        );
-
-        // Center reticle burst
-        const plus = decoRings.querySelector('.deco-plus');
-        if (plus) {
-          gsap.to(plus, {
-            rotation: '+=180',
-            scale: 1.6,
-            duration: 0.45,
-            ease: 'back.out(2)',
-            onComplete: () => gsap.to(plus, { scale: 1, duration: 0.3 })
-          });
-        }
-
-        // Kinetic text orbit speed boost
-        if (decoOrbit) {
-          gsap.to(decoOrbit, {
-            rotation: '+=90',
-            duration: 0.85,
-            ease: 'expo.out'
-          });
-        }
-
-        // Radar ripple shockwave
-        const r = document.createElement('div');
-        r.className = 'c-ripple';
-        r.style.left = e.clientX + 'px';
-        r.style.top = e.clientY + 'px';
-        document.body.appendChild(r);
-        gsap.fromTo(r,
-          { scale: 0.6, opacity: 0.95 },
-          { scale: 5.5, opacity: 0, duration: 0.65, ease: 'expo.out', onComplete: () => r.remove() }
-        );
-
-        showToast(`RADAR RECOIL // FREQ LOCKED: ${freqVal ? freqVal.textContent : '432Hz'}`, '#22d3ee');
+      consoleWindow.addEventListener('mouseleave', () => {
+        gsap.to(consoleWindow, {
+          rotationX: 0,
+          rotationY: 0,
+          ease: 'elastic.out(1, 0.4)',
+          duration: 0.8
+        });
       });
     }
 
-    // Interactive Period Beacon
+    startScrubber();
+
+    // 3. Recruiter Quick-Dossier Modal Engine
+    const openDossierBtn = document.getElementById('openDossierBtn');
+    const dossierModal = document.getElementById('recruiterDossierModal');
+    const closeDossierBtn = document.getElementById('closeDossierBtn');
+    const dossierBackdrop = document.getElementById('dossierBackdrop');
+    const copyEmailDossierBtn = document.getElementById('copyEmailDossierBtn');
+    const copyEmailDossierLabel = document.getElementById('copyEmailDossierLabel');
+    const dossierContactLink = document.getElementById('dossierContactLink');
+    const dossierResumeBtn = document.getElementById('dossierResumeBtn');
+
+    function openDossier() {
+      if (!dossierModal) return;
+      dossierModal.classList.add('open');
+      dossierModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      showToast('Executive Candidate Dossier Active · Sai Krishna', '#27c93f');
+    }
+
+    function closeDossier() {
+      if (!dossierModal) return;
+      dossierModal.classList.remove('open');
+      dossierModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    if (openDossierBtn) openDossierBtn.addEventListener('click', openDossier);
+    if (closeDossierBtn) closeDossierBtn.addEventListener('click', closeDossier);
+    if (dossierBackdrop) dossierBackdrop.addEventListener('click', closeDossier);
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && dossierModal && dossierModal.classList.contains('open')) {
+        closeDossier();
+      }
+    });
+
+    if (dossierContactLink) {
+      dossierContactLink.addEventListener('click', () => {
+        closeDossier();
+      });
+    }
+
+    if (dossierResumeBtn) {
+      dossierResumeBtn.addEventListener('click', () => {
+        closeDossier();
+        showToast('Directing to Candidate Credentials...', '#22d3ee');
+      });
+    }
+
+    // Copy Email from Dossier
+    if (copyEmailDossierBtn) {
+      copyEmailDossierBtn.addEventListener('click', async () => {
+        const email = 'saikrishnam966@gmail.com';
+        try {
+          await navigator.clipboard.writeText(email);
+          if (copyEmailDossierLabel) copyEmailDossierLabel.textContent = '✓ Copied to Clipboard!';
+          showToast(`Copied to clipboard: ${email}`, '#22d3ee');
+          setTimeout(() => {
+            if (copyEmailDossierLabel) copyEmailDossierLabel.textContent = `✉️ Copy Email: ${email}`;
+          }, 3000);
+        } catch (err) {
+          showToast(`Email: ${email}`, '#22d3ee');
+        }
+      });
+    }
+
+    // 4. Interactive Period Beacon
+    const heroPeriod = document.getElementById('heroPeriod');
     if (heroPeriod) {
       heroPeriod.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -541,7 +536,13 @@
       });
     }
 
-    // Equalizer Frequency Ribbon Modulation
+    // 5. Equalizer Frequency Ribbon Modulation
+    const freqRibbon = document.querySelector('.hero-frequency-ribbon');
+    const freqVal = document.getElementById('freqVal');
+    const freqBars = document.getElementById('freqBars');
+    const extraFreqs = ['432Hz', '528Hz', '639Hz', '741Hz', '852Hz', '963Hz'];
+    let extraFreqIdx = 0;
+
     if (freqRibbon) {
       freqRibbon.addEventListener('click', () => {
         extraFreqIdx = (extraFreqIdx + 1) % extraFreqs.length;
