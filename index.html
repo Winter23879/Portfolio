@@ -521,77 +521,511 @@
     </div>
   </div>
 
-  <!-- ── 5. SELECTED WORKS SECTION ──────────────────────────── -->
+  <!-- ── 5. SELECTED WORKS SECTION (INTERACTIVE SUITE) ──────── -->
   <section class="section works-section" id="works">
     <div class="works-inner">
-      <div class="section-tag reveal-item">04 — Selected Works</div>
-      <h2 class="works-heading reveal-item">MY<br>WORK.</h2>
+      <div class="works-header-row">
+        <div>
+          <div class="section-tag reveal-item">04 — Selected Works</div>
+          <h2 class="works-heading reveal-item">FEATURED<br>CREATIONS<span class="wh-count" id="worksCount">.06</span></h2>
+        </div>
 
-      <!-- Featured Dual Cards -->
-      <div class="works-featured">
-        <a href="#contact" class="work-feat reveal-item" data-cursor="VIEW">
-          <div class="work-feat-img">
-            <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=900&h=520&fit=crop&q=80" alt="E-Commerce Platform" class="work-thumb" loading="lazy">
+        <!-- Controls: Category Filters + View Mode Switcher -->
+        <div class="works-controls reveal-item">
+          <!-- Filter Pills -->
+          <div class="works-filter-bar" id="worksFilterBar" role="tablist" aria-label="Filter works by discipline">
+            <button class="w-filter-btn active" data-filter="all" role="tab" aria-selected="true">
+              <span>All Work</span>
+              <span class="wfb-count">06</span>
+            </button>
+            <button class="w-filter-btn" data-filter="web" role="tab" aria-selected="false">
+              <span>Web &amp; Dev</span>
+              <span class="wfb-count">03</span>
+            </button>
+            <button class="w-filter-btn" data-filter="uiux" role="tab" aria-selected="false">
+              <span>UI/UX Systems</span>
+              <span class="wfb-count">02</span>
+            </button>
+            <button class="w-filter-btn" data-filter="video" role="tab" aria-selected="false">
+              <span>Video &amp; Motion</span>
+              <span class="wfb-count">02</span>
+            </button>
           </div>
-          <div class="work-feat-info">
-            <span class="work-cat">Web Development</span>
-            <h3>E-Commerce<br>Platform</h3>
-            <p>Full-stack digital shopping experience with micro-interactions, responsive checkout, and lightning-fast web performance.</p>
-            <span class="work-link">View Project →</span>
-          </div>
-        </a>
 
-        <a href="#contact" class="work-feat reveal-item" data-cursor="VIEW">
-          <div class="work-feat-img">
-            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=900&h=520&fit=crop&q=80" alt="Brand Identity System" class="work-thumb" loading="lazy">
+          <!-- Dual View Switcher (Showcase Grid vs Spec Archive) -->
+          <div class="works-view-switch" id="worksViewSwitch">
+            <button class="w-view-btn active" data-view="grid" title="Showcase Grid View" aria-label="Showcase Grid View">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1 1h6v6H1zm8 0h6v6H9zm-8 8h6v6H1zm8 0h6v6H9z"/></svg>
+              <span>GRID</span>
+            </button>
+            <button class="w-view-btn" data-view="list" title="Spec Sheet Archive View" aria-label="Spec Sheet Archive View">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.5h14v2H1zm0 4.5h14v2H1zm0 4.5h14v2H1z"/></svg>
+              <span>SPECS</span>
+            </button>
           </div>
-          <div class="work-feat-info">
-            <span class="work-cat">UI/UX Design</span>
-            <h3>Brand Identity<br>System</h3>
-            <p>End-to-end identity system for a lifestyle brand — from logo typography and art direction to scalable digital design tokens.</p>
-            <span class="work-link">View Project →</span>
-          </div>
-        </a>
+        </div>
       </div>
 
-      <!-- Grid Cards -->
-      <div class="works-grid">
-        <a href="#contact" class="work-card reveal-item" data-cursor="VIEW">
-          <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&h=400&fit=crop&q=80" alt="Motion Reel 2024" class="work-thumb" loading="lazy">
-          <div class="work-card-info">
-            <span class="work-cat">Video Production</span>
-            <h4>Motion Reel 2024</h4>
-          </div>
-        </a>
+      <!-- ── VIEW 1: INTERACTIVE SHOWCASE GRID ───────────────── -->
+      <div class="works-showcase-grid" id="worksShowcaseGrid">
+        
+        <!-- Project 1: Flagship Abhi Furniture Mall (Full Span / Hero Card) -->
+        <div class="w-card w-card-flagship reveal-item" data-category="web" data-project-id="abhi-furniture" data-cursor="VIEW">
+          <div class="wc-visual-wrap">
+            <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1100&h=650&fit=crop&q=80" alt="Abhi Furniture Mall" class="wc-img" loading="lazy">
+            <div class="wc-gradient-overlay"></div>
+            
+            <div class="wc-top-badges">
+              <span class="wc-badge-status"><span class="wcb-dot"></span> PRODUCTION DEPLOYED</span>
+              <span class="wc-badge-cat">E-Commerce &amp; 3D Studio</span>
+            </div>
 
-        <a href="#contact" class="work-card reveal-item" data-cursor="VIEW">
-          <img src="https://images.unsplash.com/photo-1512941937938-a272e52dc9af?w=600&h=400&fit=crop&q=80" alt="Mobile Banking App" class="work-thumb" loading="lazy">
-          <div class="work-card-info">
-            <span class="work-cat">UI/UX Design</span>
-            <h4>Mobile Banking App</h4>
+            <div class="wc-hover-prompt">
+              <span class="wch-icon">✦</span>
+              <span>Inspect Case Study</span>
+            </div>
           </div>
-        </a>
 
-        <!-- Live Nandini Dev Portfolio Project -->
-        <a href="https://nandini-portfolio-bay.vercel.app/" target="_blank" rel="noopener noreferrer" class="work-card reveal-item" data-cursor="VIEW">
-          <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&h=400&fit=crop&q=80" alt="Nandini Dev Portfolio" class="work-thumb" loading="lazy">
-          <div class="work-card-info">
-            <span class="work-cat">Creative Development</span>
-            <h4>Nandini — Dev Portfolio ↗</h4>
-          </div>
-        </a>
+          <div class="wc-content">
+            <div class="wc-meta-row">
+              <span class="wc-year">2025 // FLAGSHIP BUILD</span>
+              <span class="wc-impact">99.4% LIGHTHOUSE · +180% ENGAGEMENT</span>
+            </div>
+            
+            <h3 class="wc-title">Abhi Furniture Mall — Luxury E-Commerce &amp; Spatial Studio</h3>
+            
+            <p class="wc-desc">
+              High-converting luxury furniture flagship featuring an interactive 2D spatial room planner, swatch kit dispatch, and instant administrative inventory controls.
+            </p>
 
-        <a href="#contact" class="work-card reveal-item" data-cursor="VIEW">
-          <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&h=400&fit=crop&q=80" alt="Documentary Short" class="work-thumb" loading="lazy">
-          <div class="work-card-info">
-            <span class="work-cat">Video Editing</span>
-            <h4>Documentary Short</h4>
+            <div class="wc-tags-row">
+              <span class="wc-tag">React 19</span>
+              <span class="wc-tag">TypeScript</span>
+              <span class="wc-tag">Tailwind v4</span>
+              <span class="wc-tag">Motion</span>
+              <span class="wc-tag">Express &amp; Gemini AI</span>
+            </div>
+
+            <div class="wc-actions">
+              <button class="wc-action-btn primary open-case-study" data-project-id="abhi-furniture">
+                <span>View Architecture &amp; Spec</span>
+                <span class="wca-arr">→</span>
+              </button>
+              <a href="http://localhost:3000" target="_blank" rel="noopener noreferrer" class="wc-action-btn outline">
+                <span>Launch Storefront ↗</span>
+              </a>
+            </div>
           </div>
-        </a>
+
+          <span class="bento-corner tl"></span>
+          <span class="bento-corner tr"></span>
+          <span class="bento-corner bl"></span>
+          <span class="bento-corner br"></span>
+        </div>
+
+        <!-- Project 2: Winter Cinematic Showreel 2025 -->
+        <div class="w-card reveal-item" data-category="video" data-project-id="winter-showreel" data-cursor="PLAY">
+          <div class="wc-visual-wrap">
+            <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&h=520&fit=crop&q=80" alt="Winter Motion Reel" class="wc-img" loading="lazy">
+            <div class="wc-gradient-overlay"></div>
+            
+            <div class="wc-top-badges">
+              <span class="wc-badge-status green"><span class="wcb-dot"></span> 120 FPS MASTER</span>
+              <span class="wc-badge-cat">Video Production</span>
+            </div>
+
+            <div class="wc-hover-prompt">
+              <span class="wch-icon">▶</span>
+              <span>Watch Breakdown</span>
+            </div>
+          </div>
+
+          <div class="wc-content">
+            <div class="wc-meta-row">
+              <span class="wc-year">2025 // MOTION</span>
+              <span class="wc-impact">CINEMA 4K PRORES</span>
+            </div>
+            
+            <h3 class="wc-title">Winter Motion Showreel 2025</h3>
+            <p class="wc-desc">Cinematic brand storytelling with custom sound design, narrative montage, and high-dynamic DaVinci Resolve color grading.</p>
+
+            <div class="wc-tags-row">
+              <span class="wc-tag">DaVinci Resolve</span>
+              <span class="wc-tag">4K ProRes</span>
+              <span class="wc-tag">Sound Design</span>
+            </div>
+
+            <div class="wc-actions">
+              <button class="wc-action-btn primary open-case-study" data-project-id="winter-showreel">
+                <span>Watch Breakdown</span>
+                <span class="wca-arr">→</span>
+              </button>
+            </div>
+          </div>
+
+          <span class="bento-corner tl"></span>
+          <span class="bento-corner tr"></span>
+          <span class="bento-corner bl"></span>
+          <span class="bento-corner br"></span>
+        </div>
+
+        <!-- Project 3: Nandini Dev Portfolio -->
+        <div class="w-card reveal-item" data-category="web" data-project-id="nandini-portfolio" data-cursor="VIEW">
+          <div class="wc-visual-wrap">
+            <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=520&fit=crop&q=80" alt="Nandini Dev Portfolio" class="wc-img" loading="lazy">
+            <div class="wc-gradient-overlay"></div>
+            
+            <div class="wc-top-badges">
+              <span class="wc-badge-status"><span class="wcb-dot"></span> LIVE ON VERCEL</span>
+              <span class="wc-badge-cat">Creative Engineering</span>
+            </div>
+
+            <div class="wc-hover-prompt">
+              <span class="wch-icon">↗</span>
+              <span>View Case Study</span>
+            </div>
+          </div>
+
+          <div class="wc-content">
+            <div class="wc-meta-row">
+              <span class="wc-year">2024 // PORTFOLIO</span>
+              <span class="wc-impact">100/100 PERF SCORE</span>
+            </div>
+            
+            <h3 class="wc-title">Nandini — Developer Experience Portfolio</h3>
+            <p class="wc-desc">Editorial dark-mode portfolio built with butter-smooth kinetic typography, Lenis virtual scrolling, and custom interactive shaders.</p>
+
+            <div class="wc-tags-row">
+              <span class="wc-tag">React</span>
+              <span class="wc-tag">GSAP 3</span>
+              <span class="wc-tag">Lenis Scroll</span>
+              <span class="wc-tag">Tailwind</span>
+            </div>
+
+            <div class="wc-actions">
+              <button class="wc-action-btn primary open-case-study" data-project-id="nandini-portfolio">
+                <span>Inspect Spec</span>
+                <span class="wca-arr">→</span>
+              </button>
+              <a href="https://nandini-portfolio-bay.vercel.app/" target="_blank" rel="noopener noreferrer" class="wc-action-btn outline">
+                <span>Live Site ↗</span>
+              </a>
+            </div>
+          </div>
+
+          <span class="bento-corner tl"></span>
+          <span class="bento-corner tr"></span>
+          <span class="bento-corner bl"></span>
+          <span class="bento-corner br"></span>
+        </div>
+
+        <!-- Project 4: Lumina Design System -->
+        <div class="w-card reveal-item" data-category="uiux" data-project-id="lumina-system" data-cursor="VIEW">
+          <div class="wc-visual-wrap">
+            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=520&fit=crop&q=80" alt="Lumina Design System" class="wc-img" loading="lazy">
+            <div class="wc-gradient-overlay"></div>
+            
+            <div class="wc-top-badges">
+              <span class="wc-badge-status"><span class="wcb-dot"></span> DESIGN SYSTEM</span>
+              <span class="wc-badge-cat">UI/UX Architecture</span>
+            </div>
+
+            <div class="wc-hover-prompt">
+              <span class="wch-icon">✦</span>
+              <span>Inspect Tokens</span>
+            </div>
+          </div>
+
+          <div class="wc-content">
+            <div class="wc-meta-row">
+              <span class="wc-year">2024 // DESIGN TOKENS</span>
+              <span class="wc-impact">40+ COMPONENTS · WCAG AAA</span>
+            </div>
+            
+            <h3 class="wc-title">Lumina — Modular Design Tokens System</h3>
+            <p class="wc-desc">Scalable design tokens and component specs built in Figma with auto-layout variables, dark-mode parity, and React component mapping.</p>
+
+            <div class="wc-tags-row">
+              <span class="wc-tag">Figma Tokens</span>
+              <span class="wc-tag">Design Systems</span>
+              <span class="wc-tag">React UI</span>
+            </div>
+
+            <div class="wc-actions">
+              <button class="wc-action-btn primary open-case-study" data-project-id="lumina-system">
+                <span>Inspect System</span>
+                <span class="wca-arr">→</span>
+              </button>
+            </div>
+          </div>
+
+          <span class="bento-corner tl"></span>
+          <span class="bento-corner tr"></span>
+          <span class="bento-corner bl"></span>
+          <span class="bento-corner br"></span>
+        </div>
+
+        <!-- Project 5: FinVault Neobank Interface -->
+        <div class="w-card reveal-item" data-category="uiux" data-project-id="finvault-app" data-cursor="VIEW">
+          <div class="wc-visual-wrap">
+            <img src="https://images.unsplash.com/photo-1512941937938-a272e52dc9af?w=800&h=520&fit=crop&q=80" alt="FinVault App" class="wc-img" loading="lazy">
+            <div class="wc-gradient-overlay"></div>
+            
+            <div class="wc-top-badges">
+              <span class="wc-badge-status"><span class="wcb-dot"></span> FINTECH UX</span>
+              <span class="wc-badge-cat">Mobile Product Design</span>
+            </div>
+
+            <div class="wc-hover-prompt">
+              <span class="wch-icon">✦</span>
+              <span>Inspect Flow</span>
+            </div>
+          </div>
+
+          <div class="wc-content">
+            <div class="wc-meta-row">
+              <span class="wc-year">2024 // MOBILE PRODUCT</span>
+              <span class="wc-impact">+34% ONBOARDING CONVERSION</span>
+            </div>
+            
+            <h3 class="wc-title">FinVault — Next-Gen Biometric Neobank</h3>
+            <p class="wc-desc">Futuristic fintech mobile experience with dark liquidity visual hierarchy, biometric onboarding, and instant cryptographic transactions.</p>
+
+            <div class="wc-tags-row">
+              <span class="wc-tag">Mobile UX</span>
+              <span class="wc-tag">Protopie</span>
+              <span class="wc-tag">Fintech</span>
+            </div>
+
+            <div class="wc-actions">
+              <button class="wc-action-btn primary open-case-study" data-project-id="finvault-app">
+                <span>View Product Study</span>
+                <span class="wca-arr">→</span>
+              </button>
+            </div>
+          </div>
+
+          <span class="bento-corner tl"></span>
+          <span class="bento-corner tr"></span>
+          <span class="bento-corner bl"></span>
+          <span class="bento-corner br"></span>
+        </div>
+
+        <!-- Project 6: Chroma Horizon Sci-Fi Film -->
+        <div class="w-card reveal-item" data-category="video" data-project-id="chroma-horizon" data-cursor="PLAY">
+          <div class="wc-visual-wrap">
+            <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&h=520&fit=crop&q=80" alt="Chroma Horizon Film" class="wc-img" loading="lazy">
+            <div class="wc-gradient-overlay"></div>
+            
+            <div class="wc-top-badges">
+              <span class="wc-badge-status green"><span class="wcb-dot"></span> FESTIVAL SELECTION</span>
+              <span class="wc-badge-cat">Cinematic Direction</span>
+            </div>
+
+            <div class="wc-hover-prompt">
+              <span class="wch-icon">▶</span>
+              <span>Watch Teaser</span>
+            </div>
+          </div>
+
+          <div class="wc-content">
+            <div class="wc-meta-row">
+              <span class="wc-year">2024 // CINEMA SHORT</span>
+              <span class="wc-impact">21:9 ANAMORPHIC GRADE</span>
+            </div>
+            
+            <h3 class="wc-title">Chroma Horizon — Cyberpunk Indie Teaser</h3>
+            <p class="wc-desc">High-contrast neo-noir narrative short exploring synthetic consciousness through moody practical neon lighting and volumetric color grades.</p>
+
+            <div class="wc-tags-row">
+              <span class="wc-tag">Premiere Pro</span>
+              <span class="wc-tag">DaVinci Color</span>
+              <span class="wc-tag">Anamorphic</span>
+            </div>
+
+            <div class="wc-actions">
+              <button class="wc-action-btn primary open-case-study" data-project-id="chroma-horizon">
+                <span>Watch Teaser &amp; Spec</span>
+                <span class="wca-arr">→</span>
+              </button>
+            </div>
+          </div>
+
+          <span class="bento-corner tl"></span>
+          <span class="bento-corner tr"></span>
+          <span class="bento-corner bl"></span>
+          <span class="bento-corner br"></span>
+        </div>
+
       </div>
+
+      <!-- ── VIEW 2: INTERACTIVE SPEC SHEET ARCHIVE (LIST VIEW) ─ -->
+      <div class="works-spec-archive" id="worksSpecArchive" style="display: none;">
+        <div class="w-table-header">
+          <span class="wth-col col-idx">INDEX</span>
+          <span class="wth-col col-title">PROJECT &amp; SCOPE</span>
+          <span class="wth-col col-cat">DISCIPLINE</span>
+          <span class="wth-col col-stack">CORE STACK</span>
+          <span class="wth-col col-metrics">VERIFIED IMPACT</span>
+          <span class="wth-col col-action">ACTION</span>
+        </div>
+
+        <div class="w-table-body" id="worksTableBody">
+          <!-- Table Rows populated/managed dynamically or statically -->
+          <div class="w-table-row open-case-study" data-category="web" data-project-id="abhi-furniture" role="button" tabindex="0">
+            <span class="wtr-idx">01</span>
+            <div class="wtr-title-group">
+              <span class="wtr-name">Abhi Furniture Mall</span>
+              <span class="wtr-sub">Luxury E-Commerce &amp; 3D Spatial Studio</span>
+            </div>
+            <span class="wtr-cat">Web &amp; Dev</span>
+            <div class="wtr-stack-pills">
+              <span>React 19</span><span>Tailwind v4</span><span>Motion</span>
+            </div>
+            <span class="wtr-metrics text-green">99.4% Lighthouse · +180% Engagement</span>
+            <span class="wtr-arr">Inspect Spec →</span>
+          </div>
+
+          <div class="w-table-row open-case-study" data-category="video" data-project-id="winter-showreel" role="button" tabindex="0">
+            <span class="wtr-idx">02</span>
+            <div class="wtr-title-group">
+              <span class="wtr-name">Winter Cinematic Showreel</span>
+              <span class="wtr-sub">Commercial Motion &amp; Color Grade</span>
+            </div>
+            <span class="wtr-cat">Video &amp; Motion</span>
+            <div class="wtr-stack-pills">
+              <span>DaVinci Resolve</span><span>ProRes 4K</span>
+            </div>
+            <span class="wtr-metrics">120 FPS Master · Cinema 4K</span>
+            <span class="wtr-arr">Inspect Spec →</span>
+          </div>
+
+          <div class="w-table-row open-case-study" data-category="web" data-project-id="nandini-portfolio" role="button" tabindex="0">
+            <span class="wtr-idx">03</span>
+            <div class="wtr-title-group">
+              <span class="wtr-name">Nandini Developer Portfolio</span>
+              <span class="wtr-sub">Interactive Motion Engineering</span>
+            </div>
+            <span class="wtr-cat">Web &amp; Dev</span>
+            <div class="wtr-stack-pills">
+              <span>React</span><span>GSAP 3</span><span>Lenis</span>
+            </div>
+            <span class="wtr-metrics text-green">100/100 Perf Score · 120 FPS</span>
+            <span class="wtr-arr">Inspect Spec →</span>
+          </div>
+
+          <div class="w-table-row open-case-study" data-category="uiux" data-project-id="lumina-system" role="button" tabindex="0">
+            <span class="wtr-idx">04</span>
+            <div class="wtr-title-group">
+              <span class="wtr-name">Lumina Design System</span>
+              <span class="wtr-sub">Modular Tokens Architecture</span>
+            </div>
+            <span class="wtr-cat">UI/UX Systems</span>
+            <div class="wtr-stack-pills">
+              <span>Figma</span><span>Design Tokens</span>
+            </div>
+            <span class="wtr-metrics">40+ Components · WCAG AAA</span>
+            <span class="wtr-arr">Inspect Spec →</span>
+          </div>
+
+          <div class="w-table-row open-case-study" data-category="uiux" data-project-id="finvault-app" role="button" tabindex="0">
+            <span class="wtr-idx">05</span>
+            <div class="wtr-title-group">
+              <span class="wtr-name">FinVault Neobank Interface</span>
+              <span class="wtr-sub">Biometric Mobile Banking</span>
+            </div>
+            <span class="wtr-cat">UI/UX Systems</span>
+            <div class="wtr-stack-pills">
+              <span>Mobile UX</span><span>Protopie</span>
+            </div>
+            <span class="wtr-metrics text-green">+34% Onboarding Conversion</span>
+            <span class="wtr-arr">Inspect Spec →</span>
+          </div>
+
+          <div class="w-table-row open-case-study" data-category="video" data-project-id="chroma-horizon" role="button" tabindex="0">
+            <span class="wtr-idx">06</span>
+            <div class="wtr-title-group">
+              <span class="wtr-name">Chroma Horizon</span>
+              <span class="wtr-sub">Cyberpunk Narrative Film Teaser</span>
+            </div>
+            <span class="wtr-cat">Video &amp; Motion</span>
+            <div class="wtr-stack-pills">
+              <span>Premiere Pro</span><span>DaVinci</span>
+            </div>
+            <span class="wtr-metrics">Official Festival Selection</span>
+            <span class="wtr-arr">Inspect Spec →</span>
+          </div>
+        </div>
+      </div>
+
     </div>
     <div class="section-number-bg" aria-hidden="true">04</div>
   </section>
+
+  <!-- ── PROJECT CASE STUDY HUD MODAL ───────────────────────── -->
+  <div class="case-study-overlay" id="caseStudyOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="csModalTitle">
+    <div class="case-study-panel" id="caseStudyPanel">
+      <div class="csp-header">
+        <div class="csp-meta-badge">
+          <span class="csp-dot"></span>
+          <span class="csp-cat" id="csModalCat">WEB DEVELOPMENT // E-COMMERCE</span>
+        </div>
+        <button class="csp-close-btn" id="csModalCloseBtn" aria-label="Close Case Study">✕</button>
+      </div>
+
+      <div class="csp-body">
+        <div class="csp-media-wrap">
+          <img src="" alt="Project Visual Preview" id="csModalImg" class="csp-img">
+          <div class="csp-media-hud">
+            <span class="cmh-pill" id="csModalStatus">● PRODUCTION DEPLOYED</span>
+            <span class="cmh-pill" id="csModalYear">2025</span>
+          </div>
+        </div>
+
+        <div class="csp-content-grid">
+          <div class="csp-main-info">
+            <h3 class="csp-title" id="csModalTitle">Project Title</h3>
+            <p class="csp-desc" id="csModalDesc">Project detailed narrative description...</p>
+            
+            <div class="csp-section-title">THE ARCHITECTURAL SOLUTION</div>
+            <p class="csp-solution" id="csModalSolution">Solution breakdown...</p>
+          </div>
+
+          <div class="csp-sidebar-specs">
+            <div class="cs-spec-box">
+              <span class="css-label">TECH ARSENAL</span>
+              <div class="css-tags" id="csModalTags">
+                <!-- Injected Tags -->
+              </div>
+            </div>
+
+            <div class="cs-spec-box">
+              <span class="css-label">VERIFIED DELIVERABLES</span>
+              <ul class="css-list" id="csModalDeliverables">
+                <!-- Injected Deliverables -->
+              </ul>
+            </div>
+
+            <div class="cs-spec-box highlight">
+              <span class="css-label">KEY PERFORMANCE METRIC</span>
+              <div class="css-metric-val" id="csModalMetric">99.4% Lighthouse Score</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="csp-footer-actions">
+          <a href="#" target="_blank" rel="noopener noreferrer" class="csp-action-btn primary" id="csModalLiveBtn">
+            <span>Launch Live Project</span>
+            <span class="arr">↗</span>
+          </a>
+          <a href="#contact" class="csp-action-btn outline" id="csModalInquireBtn">
+            <span>Inquire About Similar Architecture</span>
+            <span class="arr">↓</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ── 6. CONTACT SECTION ─────────────────────────────────── -->
   <section class="section contact-section" id="contact">

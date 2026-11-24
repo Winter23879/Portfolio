@@ -88,7 +88,7 @@
     });
 
     // Hover interactive elements
-    document.querySelectorAll('a, button, .skill, .service-card, .work-card, .work-feat, .expertise-item, .hero-frequency-ribbon, .hero-period, .dmode-tab, .bento-tag, .bento-dossier-btn, .bqc-btn, .br-play-btn, .bento-card-reel, .dossier-btn, .dossier-close-btn').forEach((el) => {
+    document.querySelectorAll('a, button, .skill, .service-card, .work-card, .work-feat, .expertise-item, .hero-frequency-ribbon, .hero-period, .dmode-tab, .bento-tag, .bento-dossier-btn, .bqc-btn, .br-play-btn, .bento-card-reel, .dossier-btn, .dossier-close-btn, .w-filter-btn, .w-view-btn, .w-card, .w-table-row, .wc-action-btn, .csp-close-btn, .csp-action-btn').forEach((el) => {
       const isView = el.hasAttribute('data-cursor');
       const customLabel = el.getAttribute('data-cursor') || 'VIEW';
       const isResume = el.classList.contains('nav-resume');
@@ -621,7 +621,357 @@
     }, { passive: true });
   })();
 
-  /* ── 11. CONTACT FORM HANDLING ───────────────────────────── */
+  /* ── 11. INTERACTIVE SELECTED WORKS SUITE ────────────────── */
+  (function initSelectedWorksSuite() {
+    const PROJECTS_DATA = {
+      'abhi-furniture': {
+        title: 'Abhi Furniture Mall — Luxury E-Commerce & Spatial Studio',
+        category: 'WEB DEVELOPMENT // FULL-STACK COMMERCE',
+        year: '2025 // FLAGSHIP',
+        status: '● PRODUCTION DEPLOYED',
+        image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1100&h=650&fit=crop&q=80',
+        description: 'A high-converting digital flagship for handcrafted solid wood furniture. Designed with an editorial luxury aesthetic, instant cart drawer, and seamless bridge between online browsing and physical showroom consultations.',
+        solution: 'Engineered an interactive 2D Spatial Studio room planner enabling customers to place and scale furniture on floor plans. Built a physical swatch kit dispatch pipeline, integrated Admin Studio for live inventory control, and direct WhatsApp customer consultation.',
+        tags: ['React 19', 'TypeScript', 'Tailwind CSS v4', 'Motion', 'Express', 'Google Gemini AI'],
+        deliverables: [
+          '2D Spatial Room Floorplan Studio',
+          'Tactile Sample Swatch Kit Request Engine',
+          'Administrative Operations & Inventory Studio',
+          '60+ FPS Hardware-Accelerated Micro-Interactions'
+        ],
+        metric: '99.4% Lighthouse Score · +180% User Engagement',
+        liveUrl: 'http://localhost:3000'
+      },
+      'winter-showreel': {
+        title: 'Winter Motion Showreel 2025',
+        category: 'VIDEO PRODUCTION // CINEMATIC COLOR',
+        year: '2025 // SHOWREEL',
+        status: '● 120 FPS MASTER',
+        image: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1100&h=650&fit=crop&q=80',
+        description: 'An electrifying commercial montage uniting 3 years of commercial brand campaigns, title motion graphics, and documentary cinema into a high-octane 4K showcase.',
+        solution: 'Conformed at 120 FPS in DaVinci Resolve Studio with anamorphic lens distortion matching, custom binaural sound design, and tailored commercial social cuts.',
+        tags: ['DaVinci Resolve Studio', 'Premiere Pro', 'After Effects', '4K ProRes 4444XQ'],
+        deliverables: [
+          '4K Master Broadcast Export',
+          'Filmic Anamorphic Color Grading Suite',
+          'Harmonic Soundwave & Kinetic Title Graphics',
+          'Multi-Format Deliverables for Global Ads'
+        ],
+        metric: '120 FPS Master · Cinema 4K ProRes',
+        liveUrl: '#home'
+      },
+      'nandini-portfolio': {
+        title: 'Nandini — Developer Experience Portfolio',
+        category: 'CREATIVE ENGINEERING // WEB',
+        year: '2024 // PORTFOLIO',
+        status: '● LIVE ON VERCEL',
+        image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=1100&h=650&fit=crop&q=80',
+        description: 'An editorial dark-mode software engineer portfolio engineered to immediately captivate tech leads with silky kinetic physics and zero layout jitter.',
+        solution: 'Built using Lenis smooth virtual scroll combined with GSAP ScrollTrigger physics, bespoke SVG typography shaders, and instant project preview interactions.',
+        tags: ['React', 'GSAP 3', 'Lenis Scroll', 'Tailwind CSS', 'Vercel Edge'],
+        deliverables: [
+          '100/100 Lighthouse Performance Rating',
+          'GPU Hardware Accelerated Virtual Scroll',
+          'Kinetic Typography Stagger Engine',
+          'Full Cross-Device Adaptive Layout'
+        ],
+        metric: '100/100 Perf Score · 120 FPS Target',
+        liveUrl: 'https://nandini-portfolio-bay.vercel.app/'
+      },
+      'lumina-system': {
+        title: 'Lumina — Modular Design Tokens System',
+        category: 'UI/UX DESIGN // DESIGN SYSTEMS',
+        year: '2024 // DESIGN TOKENS',
+        status: '● DESIGN ARCHITECTURE',
+        image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1100&h=650&fit=crop&q=80',
+        description: 'A multi-brand scalable design system built to unify product UI teams across web, mobile, and design token pipelines with atomic precision.',
+        solution: 'Constructed comprehensive Figma variable token collections, WCAG AAA compliant color contrast matrices, and automated React component code generation.',
+        tags: ['Figma Variables', 'Design Tokens', 'React UI Systems', 'Atomic Architecture'],
+        deliverables: [
+          '40+ Production Component Specifications',
+          'WCAG AAA Accessible Palette Matrix',
+          'Zero-Drift Design Token Architecture',
+          'Living Interactive Design Documentation'
+        ],
+        metric: '40+ Components · WCAG AAA Compliant',
+        liveUrl: '#contact'
+      },
+      'finvault-app': {
+        title: 'FinVault — Next-Gen Biometric Neobank',
+        category: 'UI/UX DESIGN // MOBILE PRODUCT',
+        year: '2024 // MOBILE PRODUCT',
+        status: '● PROTOTYPE VERIFIED',
+        image: 'https://images.unsplash.com/photo-1512941937938-a272e52dc9af?w=1100&h=650&fit=crop&q=80',
+        description: 'A dark-liquidity visual experience for modern high-net-worth mobile banking, focusing on biometric friction reduction and instant cryptographic transfers.',
+        solution: 'Crafted interactive high-fidelity prototypes in Protopie, featuring fluid dynamic balances, biometric haptic feedback states, and conversational send flows.',
+        tags: ['Mobile UX', 'Protopie', 'iOS Design', 'Fintech Flows'],
+        deliverables: [
+          'High-Fidelity Interactive Mobile Prototype',
+          'Biometric User Journey Flowcharts',
+          'Haptic Micro-interaction Specs',
+          '+34% Tested Onboarding Retention Boost'
+        ],
+        metric: '+34% Onboarding Conversion Rate',
+        liveUrl: '#contact'
+      },
+      'chroma-horizon': {
+        title: 'Chroma Horizon — Cyberpunk Indie Teaser',
+        category: 'VIDEO PRODUCTION // CINEMATIC DIRECTION',
+        year: '2024 // CINEMA SHORT',
+        status: '● FESTIVAL SELECTION',
+        image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1100&h=650&fit=crop&q=80',
+        description: 'A moody neo-noir visual short exploring synthetic intelligence through volumetric atmospheric haze, practical RGB neon lighting, and cinematic 21:9 framing.',
+        solution: 'Directed and color-graded with custom film curves, optical anamorphic flare treatment, and practical lighting sets combined with 3D environment extensions in Blender.',
+        tags: ['Premiere Pro', 'DaVinci Resolve', 'Blender 3D', 'Anamorphic 2.39:1'],
+        deliverables: [
+          'Festival Teaser Master (4K Anamorphic)',
+          'Original Synthwave Audio Score',
+          'Color Grade Showreel Breakdown',
+          'Official Indie Film Festival Selection'
+        ],
+        metric: 'Official Indie Film Festival Selection',
+        liveUrl: '#contact'
+      }
+    };
+
+    // 1. Category Filtering
+    const filterBtns = document.querySelectorAll('.w-filter-btn');
+    const cards = document.querySelectorAll('.w-card');
+    const tableRows = document.querySelectorAll('.w-table-row');
+    const worksCount = document.getElementById('worksCount');
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter');
+
+        // Toggle active button
+        filterBtns.forEach((b) => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+
+        let visibleCount = 0;
+
+        // Filter Grid Cards
+        cards.forEach((card) => {
+          const cat = card.getAttribute('data-category');
+          const matches = filter === 'all' || cat === filter;
+          if (matches) {
+            visibleCount++;
+            card.style.display = '';
+            gsap.fromTo(card,
+              { opacity: 0, scale: 0.95, y: 15 },
+              { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: 'power2.out' }
+            );
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        // Filter Table Rows
+        tableRows.forEach((row) => {
+          const cat = row.getAttribute('data-category');
+          const matches = filter === 'all' || cat === filter;
+          if (matches) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+
+        // Update counter in heading
+        if (worksCount) {
+          worksCount.textContent = '.' + String(visibleCount).padStart(2, '0');
+        }
+
+        // Show toast
+        showToast(`WORKS FILTER // ${btn.querySelector('span').textContent.toUpperCase()}`, '#22d3ee');
+      });
+    });
+
+    // 2. Dual View Switcher (Grid vs Specs)
+    const viewBtns = document.querySelectorAll('.w-view-btn');
+    const showcaseGrid = document.getElementById('worksShowcaseGrid');
+    const specArchive = document.getElementById('worksSpecArchive');
+
+    viewBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const view = btn.getAttribute('data-view');
+
+        viewBtns.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        if (view === 'grid') {
+          if (specArchive) specArchive.style.display = 'none';
+          if (showcaseGrid) {
+            showcaseGrid.style.display = '';
+            gsap.fromTo(showcaseGrid,
+              { opacity: 0, y: 15 },
+              { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }
+            );
+          }
+          showToast('VIEW MODE // SHOWCASE GRID', '#22d3ee');
+        } else {
+          if (showcaseGrid) showcaseGrid.style.display = 'none';
+          if (specArchive) {
+            specArchive.style.display = '';
+            gsap.fromTo(specArchive,
+              { opacity: 0, y: 15 },
+              { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }
+            );
+          }
+          showToast('VIEW MODE // ARCHITECTURE SPEC SHEET', '#10b981');
+        }
+      });
+    });
+
+    // 3. Case Study HUD Modal Logic
+    const overlay = document.getElementById('caseStudyOverlay');
+    const closeBtn = document.getElementById('csModalCloseBtn');
+    const csCat = document.getElementById('csModalCat');
+    const csTitle = document.getElementById('csModalTitle');
+    const csDesc = document.getElementById('csModalDesc');
+    const csSolution = document.getElementById('csModalSolution');
+    const csImg = document.getElementById('csModalImg');
+    const csStatus = document.getElementById('csModalStatus');
+    const csYear = document.getElementById('csModalYear');
+    const csTags = document.getElementById('csModalTags');
+    const csDeliverables = document.getElementById('csModalDeliverables');
+    const csMetric = document.getElementById('csModalMetric');
+    const csLiveBtn = document.getElementById('csModalLiveBtn');
+    const csInquireBtn = document.getElementById('csModalInquireBtn');
+
+    function openCaseStudy(projectId) {
+      const data = PROJECTS_DATA[projectId];
+      if (!data || !overlay) return;
+
+      if (csCat) csCat.textContent = data.category;
+      if (csTitle) csTitle.textContent = data.title;
+      if (csDesc) csDesc.textContent = data.description;
+      if (csSolution) csSolution.textContent = data.solution;
+      if (csImg) {
+        csImg.src = data.image;
+        csImg.alt = data.title;
+      }
+      if (csStatus) csStatus.textContent = data.status;
+      if (csYear) csYear.textContent = data.year;
+      if (csMetric) csMetric.textContent = data.metric;
+
+      if (csLiveBtn) {
+        csLiveBtn.href = data.liveUrl;
+        if (data.liveUrl.startsWith('http')) {
+          csLiveBtn.style.display = '';
+          csLiveBtn.target = '_blank';
+        } else {
+          csLiveBtn.style.display = 'none';
+        }
+      }
+
+      if (csTags) {
+        csTags.innerHTML = data.tags.map((t) => `<span>${t}</span>`).join('');
+      }
+
+      if (csDeliverables) {
+        csDeliverables.innerHTML = data.deliverables.map((d) => `<li>${d}</li>`).join('');
+      }
+
+      overlay.classList.add('open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+
+      showToast(`SPEC LOADED // ${data.title.substring(0, 28)}...`, '#22d3ee');
+    }
+
+    function closeCaseStudy() {
+      if (!overlay) return;
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    // Bind all elements with .open-case-study or cards
+    document.querySelectorAll('.open-case-study').forEach((el) => {
+      el.addEventListener('click', (e) => {
+        // If it's a direct external link (like Launch Storefront), let it navigate
+        if (e.target.closest('a') && !e.target.closest('.open-case-study')) return;
+        const pid = el.getAttribute('data-project-id');
+        if (pid) {
+          e.preventDefault();
+          openCaseStudy(pid);
+        }
+      });
+    });
+
+    cards.forEach((card) => {
+      card.addEventListener('click', (e) => {
+        // If clicking a direct external link, don't open modal
+        if (e.target.closest('a') || e.target.closest('button')) return;
+        const pid = card.getAttribute('data-project-id');
+        if (pid) {
+          openCaseStudy(pid);
+        }
+      });
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeCaseStudy);
+
+    if (overlay) {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeCaseStudy();
+      });
+    }
+
+    if (csInquireBtn) {
+      csInquireBtn.addEventListener('click', () => {
+        closeCaseStudy();
+      });
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay && overlay.classList.contains('open')) {
+        closeCaseStudy();
+      }
+    });
+
+    // 4. Desktop 3D Gyroscopic Tilt on Works Cards
+    if (!isTouchDevice) {
+      cards.forEach((card) => {
+        let isHovered = false;
+
+        card.addEventListener('mouseenter', () => { isHovered = true; });
+        card.addEventListener('mouseleave', () => {
+          isHovered = false;
+          gsap.to(card, {
+            rotationX: 0,
+            rotationY: 0,
+            duration: 0.65,
+            ease: 'elastic.out(1, 0.45)'
+          });
+        });
+
+        card.addEventListener('mousemove', (e) => {
+          if (!isHovered) return;
+          const rect = card.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2;
+          const dx = (e.clientX - cx) / (rect.width / 2);
+          const dy = (e.clientY - cy) / (rect.height / 2);
+
+          gsap.to(card, {
+            rotationX: -dy * 4,
+            rotationY: dx * 4,
+            transformPerspective: 1000,
+            duration: 0.25,
+            ease: 'power2.out'
+          });
+        }, { passive: true });
+      });
+    }
+  })();
+
+  /* ── 12. CONTACT FORM HANDLING ───────────────────────────── */
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
@@ -711,7 +1061,7 @@
     });
 
     // Works Cards Reveal
-    gsap.fromTo('.work-card',
+    gsap.fromTo('.w-card',
       { opacity: 0, y: 40 },
       {
         opacity: 1,
@@ -720,7 +1070,7 @@
         ease: 'expo.out',
         stagger: 0.08,
         scrollTrigger: {
-          trigger: '.works-grid',
+          trigger: '#worksShowcaseGrid',
           start: 'top 82%',
           once: true
         }
@@ -759,7 +1109,7 @@
       );
     });
   } else {
-    document.querySelectorAll('.reveal-item, .service-card, .work-card, .skill').forEach((el) => {
+    document.querySelectorAll('.reveal-item, .service-card, .w-card, .w-table-row, .skill').forEach((el) => {
       el.style.opacity = '1';
       el.style.transform = 'none';
     });
