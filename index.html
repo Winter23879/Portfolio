@@ -91,75 +91,41 @@
     </div>
   </div>
 
-  <!-- ── 1. HERO SECTION ────────────────────────────────────── -->
-  <section class="section hero-section" id="home">
-    <div class="hero-inner">
+  <!-- ── 1. HERO SECTION (CONCEPT 3: SPATIAL BENTO CONSOLE) ──── -->
+  <section class="section hero-section hero-bento-layout" id="home">
+    <div class="hero-inner bento-hero-left">
       <!-- Live Telemetry Pill -->
       <div class="hero-telemetry-badge reveal-item">
         <span class="tele-dot"></span>
-        <span class="tele-txt">SYS.ONLINE // 14.44°N 79.98°E // 120FPS ACTIVE</span>
+        <span class="tele-txt">SYS.BENTO // 14.44°N 79.98°E // 120FPS GPU RUNTIME</span>
       </div>
 
-      <p class="hero-eyebrow reveal-item">Creative Director &amp; Maker</p>
+      <p class="hero-eyebrow reveal-item">Creative Director &amp; Technologist</p>
       
       <h1 class="hero-title reveal-item" id="heroTitle">
         <span class="hero-line">WIN</span>
         <span class="hero-line italic">TER<span class="hero-period" id="heroPeriod" title="Interactive System Core">.</span></span>
       </h1>
-      
-      <!-- Interactive Synchronized Discipline Pillars -->
-      <div class="hero-expertise" id="heroExpertise">
-        <div class="expertise-item active reveal-item" data-discipline="0" role="button" tabindex="0" aria-label="Select Video Production">
-          <div class="exp-indicator">
-            <span class="exp-num">01</span>
-            <span class="exp-soundwave">
-              <span></span><span></span><span></span><span></span>
-            </span>
-          </div>
-          <div class="exp-text">
-            <h4>Video Production</h4>
-            <p>Cinematic storytelling through expert motion &amp; color grading.</p>
-          </div>
-          <span class="exp-arrow">→</span>
-        </div>
 
-        <div class="expertise-item reveal-item" data-discipline="1" role="button" tabindex="0" aria-label="Select UI/UX Design">
-          <div class="exp-indicator">
-            <span class="exp-num">02</span>
-            <span class="exp-soundwave">
-              <span></span><span></span><span></span><span></span>
-            </span>
-          </div>
-          <div class="exp-text">
-            <h4>UI/UX Design</h4>
-            <p>Building intuitive, polished, and elegant digital interfaces.</p>
-          </div>
-          <span class="exp-arrow">→</span>
-        </div>
+      <p class="bento-hero-desc reveal-item">
+        Bridging cinematic motion, design systems &amp; high-performance React architectures. Focused on craft, fluidity, and verified business conversion.
+      </p>
 
-        <div class="expertise-item reveal-item" data-discipline="2" role="button" tabindex="0" aria-label="Select Web Development">
-          <div class="exp-indicator">
-            <span class="exp-num">03</span>
-            <span class="exp-soundwave">
-              <span></span><span></span><span></span><span></span>
-            </span>
-          </div>
-          <div class="exp-text">
-            <h4>Web Development</h4>
-            <p>Merging high-performance code and art for seamless experiences.</p>
-          </div>
-          <span class="exp-arrow">→</span>
-        </div>
-      </div>
-      
-      <div class="hero-action-row reveal-item">
-        <a href="#works" class="hero-cta">
-          <span>View My Work</span>
+      <!-- Recruiter & Visitor Action Dock -->
+      <div class="bento-action-dock reveal-item">
+        <a href="#works" class="hero-cta bento-cta-primary">
+          <span>Explore Works</span>
           <span class="cta-arrow">↓</span>
         </a>
 
+        <button class="bento-dossier-btn" id="dossierTriggerBtn" aria-label="Open Recruiter Quick Dossier">
+          <span class="dossier-bolt">⚡</span>
+          <span>Recruiter Dossier</span>
+          <span class="dossier-pill-tag">CV</span>
+        </button>
+
         <!-- Live Equalizer Soundwave Ribbon -->
-        <div class="hero-frequency-ribbon" title="System Kinetic Frequency">
+        <div class="hero-frequency-ribbon bento-freq-pill" id="bentoFreqPill" title="System Kinetic Frequency">
           <span class="freq-label">FREQ</span>
           <span class="freq-bars" id="freqBars">
             <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
@@ -167,97 +133,167 @@
           <span class="freq-val" id="freqVal">432Hz</span>
         </div>
       </div>
-    </div>
 
-    <!-- Hero Interactive Holographic Command Center & 3D Deck -->
-    <div class="hero-deco" id="heroDeco" aria-hidden="false">
-      <!-- Tactical Mode Switcher Tabs -->
-      <div class="deck-mode-tabs" id="deckModeTabs">
-        <button class="dmode-tab active" data-discipline="0">01 MOTION</button>
-        <button class="dmode-tab" data-discipline="1">02 UI/UX</button>
-        <button class="dmode-tab" data-discipline="2">03 CODE</button>
-      </div>
-
-      <!-- Holographic Stage with Concentric Cybernetic Rings & Orbit -->
-      <div class="hero-deco-stage" id="heroDecoStage">
-        <!-- Concentric Cybernetic Radar Rings (Interactive Target Zone) -->
-        <div class="deco-rings" id="decoRings" title="Click to interact / trigger recoil shockwave">
-          <div class="deco-ring r1"></div>
-          <div class="deco-ring r2"></div>
-          <div class="deco-ring r3"></div>
-          <div class="deco-plus">+</div>
-        </div>
-
-        <!-- Rotating SVG Orbit Text -->
-        <svg class="deco-orbit" id="decoOrbit" viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs><path id="op" d="M 170,55 A 115,115 0 1,1 170,285 A 115,115 0 1,1 170,55"/></defs>
-          <text><textPath href="#op" id="orbitTextPath" startOffset="0%">AVAILABLE FOR WORK · 2025 · NELLORE, INDIA · CREATIVE DIRECTOR · </textPath></text>
-        </svg>
-
-        <!-- 3D Layered Interactive Card Deck -->
-        <div class="card-stack" id="cardStack" data-cursor="VIEW">
-          <!-- Card 0: Video Production -->
-          <a href="#works" class="stack-card card-front" data-index="0" tabindex="-1">
-            <div class="card-badge-chip"><span>01</span> MOTION REEL</div>
-            <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=480&h=620&fit=crop&q=80" alt="Motion Reel" loading="eager" fetchpriority="high">
-            <div class="stack-label">
-              <div>
-                <span class="sc-cat">Video Production</span>
-                <span class="sc-name">Cinematic Motion 2024</span>
-              </div>
-              <span class="sc-year">2024</span>
-            </div>
-          </a>
-
-          <!-- Card 1: UI/UX Design -->
-          <a href="#works" class="stack-card card-mid" data-index="1" tabindex="-1">
-            <div class="card-badge-chip"><span>02</span> UI/UX SYSTEM</div>
-            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=480&h=620&fit=crop&q=80" alt="Brand Identity" loading="lazy">
-            <div class="stack-label">
-              <div>
-                <span class="sc-cat">UI/UX Design</span>
-                <span class="sc-name">Design Architecture</span>
-              </div>
-              <span class="sc-year">2024</span>
-            </div>
-          </a>
-
-          <!-- Card 2: Web Development -->
-          <a href="#works" class="stack-card card-back" data-index="2" tabindex="-1">
-            <div class="card-badge-chip"><span>03</span> DEV ARCHITECT</div>
-            <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=480&h=620&fit=crop&q=80" alt="E-Commerce Platform" loading="lazy">
-            <div class="stack-label">
-              <div>
-                <span class="sc-cat">Creative Engineering</span>
-                <span class="sc-name">Full-Stack Web App</span>
-              </div>
-              <span class="sc-year">2024</span>
-            </div>
-          </a>
-
-          <div class="stack-hint" aria-hidden="true">hover to fan · click to cycle</div>
-        </div>
-      </div>
-
-      <!-- Telemetry Stats Strip with Live Tooltips -->
-      <div class="deco-stats">
-        <div class="deco-stat" title="Commercial &amp; Independent Works">
-          <span class="dsn">20+</span>
-          <span class="dsl">Projects</span>
-        </div>
-        <div class="dsdiv"></div>
-        <div class="deco-stat" title="Creative Development Mastery">
-          <span class="dsn">3+</span>
-          <span class="dsl">Years Exp.</span>
-        </div>
-        <div class="dsdiv"></div>
-        <div class="deco-stat" title="Film · Interface · Frontend">
-          <span class="dsn">3</span>
-          <span class="dsl">Disciplines</span>
-        </div>
+      <!-- Quick Trust Highlights Strip -->
+      <div class="bento-trust-strip reveal-item">
+        <span class="bts-item"><span class="bts-dot"></span> React 19 &amp; Next.js</span>
+        <span class="bts-sep">/</span>
+        <span class="bts-item"><span class="bts-dot"></span> 120FPS GSAP Motion</span>
+        <span class="bts-sep">/</span>
+        <span class="bts-item"><span class="bts-dot"></span> Design Systems</span>
       </div>
     </div>
 
+    <!-- ── SPATIAL BENTO CONSOLE GRID (RIGHT SIDE) ───────────── -->
+    <div class="bento-console-grid reveal-item" id="bentoConsoleGrid">
+      
+      <!-- Bento Card 1: Interactive Showreel & Soundwave Deck (Spans 2 columns) -->
+      <div class="bento-card bento-card-reel" id="bentoReelCard" data-cursor="PLAY">
+        <div class="bento-reel-media">
+          <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&h=500&fit=crop&q=80" alt="Winter Cinematic Showreel" class="bento-reel-img" id="bentoReelImg">
+          <div class="bento-reel-gradient"></div>
+        </div>
+
+        <div class="bento-reel-hud">
+          <div class="br-header">
+            <span class="br-live-tag"><span class="br-rec-dot"></span> CINEMATIC SHOWREEL 4K</span>
+            <div class="br-controls">
+              <button class="br-play-btn" id="bentoPlayBtn" aria-label="Toggle Showreel">
+                <span class="play-icon" id="bentoPlayIcon">▶</span>
+                <span class="play-text" id="bentoPlayText">PLAY REEL</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="br-footer">
+            <div class="br-meta">
+              <span class="br-title">Winter Motion Showreel 2025</span>
+              <span class="br-specs">120 FPS // 4K PRORES // COLOR GRADE</span>
+            </div>
+
+            <!-- Dynamic audio visualizer bars -->
+            <div class="br-wave-box" id="bentoWaveBox" title="Audio Spectrum Visualizer">
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Corner Reticles for High-Tech feel -->
+        <span class="bento-corner tl"></span>
+        <span class="bento-corner tr"></span>
+        <span class="bento-corner bl"></span>
+        <span class="bento-corner br"></span>
+      </div>
+
+      <!-- Bento Card 2: Verified Impact Matrix & Telemetry -->
+      <div class="bento-card bento-card-metrics" id="bentoMetricsCard">
+        <div class="bento-card-label">
+          <span class="bcl-icon">✦</span>
+          <span>VERIFIED IMPACT MATRIX</span>
+        </div>
+        
+        <div class="bento-metrics-grid">
+          <div class="b-metric-item">
+            <div class="bmi-value"><span class="counter-num" data-target="24">24</span><span class="bmi-plus">+</span></div>
+            <div class="bmi-label">Projects Shipped</div>
+          </div>
+          <div class="b-metric-item">
+            <div class="bmi-value"><span class="counter-num" data-target="99.8">99.8</span><span class="bmi-unit">%</span></div>
+            <div class="bmi-label">Lighthouse Score</div>
+          </div>
+          <div class="b-metric-item">
+            <div class="bmi-value"><span class="counter-num" data-target="3">3</span><span class="bmi-plus">+</span></div>
+            <div class="bmi-label">Years Directed</div>
+          </div>
+          <div class="b-metric-item">
+            <div class="bmi-value"><span class="counter-num" data-target="120">120</span><span class="bmi-unit">FPS</span></div>
+            <div class="bmi-label">Motion Target</div>
+          </div>
+        </div>
+
+        <div class="bento-metrics-footer">
+          <span class="bmf-indicator">● ALL SYSTEMS NOMINAL</span>
+          <span class="bmf-tech">100% RESPONSIVE</span>
+        </div>
+
+        <span class="bento-corner tl"></span>
+        <span class="bento-corner tr"></span>
+        <span class="bento-corner bl"></span>
+        <span class="bento-corner br"></span>
+      </div>
+
+      <!-- Bento Card 3: Real-Time World Clock & Availability Beacon -->
+      <div class="bento-card bento-card-status" id="bentoStatusCard">
+        <div class="bento-card-label">
+          <span class="bcl-icon">●</span>
+          <span>LOCATION &amp; AVAILABILITY</span>
+        </div>
+
+        <div class="bento-status-main">
+          <div class="bento-time-row">
+            <span class="bento-clock" id="bentoClock">17:25:00</span>
+            <span class="bento-tz">IST · UTC+5:30</span>
+          </div>
+          <div class="bento-location">
+            <span class="loc-pin">📍</span> Nellore, India <span class="loc-sub">(Remote Worldwide)</span>
+          </div>
+          <div class="bento-avail-pill">
+            <span class="avail-dot"></span>
+            <span class="avail-txt">READY FOR WORK // Q1 2025</span>
+          </div>
+        </div>
+
+        <div class="bento-quick-contacts">
+          <button class="bqc-btn" id="bentoCopyEmailBtn" title="Click to copy email address">
+            <span>Copy Email</span>
+            <span class="bqc-icon">📋</span>
+          </button>
+          <a href="https://wa.me/917997973038?text=Hi%20Winter,%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project" target="_blank" rel="noopener noreferrer" class="bqc-btn whatsapp" title="Chat on WhatsApp">
+            <span>WhatsApp</span>
+            <span class="bqc-icon">↗</span>
+          </a>
+        </div>
+
+        <span class="bento-corner tl"></span>
+        <span class="bento-corner tr"></span>
+        <span class="bento-corner bl"></span>
+        <span class="bento-corner br"></span>
+      </div>
+
+      <!-- Bento Card 4: Production Tech Stack Radar (Spans 2 columns) -->
+      <div class="bento-card bento-card-stack" id="bentoStackCard">
+        <div class="bento-card-label">
+          <span class="bcl-icon">⚡</span>
+          <span>CORE TECH ARSENAL // INTERACTIVE RADAR</span>
+          <span class="bento-hud-tip" id="stackHudTip">hover stack tag to inspect</span>
+        </div>
+
+        <div class="bento-tags-row" id="bentoTagsRow">
+          <button class="bento-tag active" data-desc="React 19 Server Components, Actions & modern concurrent hooks">React 19</button>
+          <button class="bento-tag" data-desc="Next.js 15 App Router, SSR, Turbopack & edge optimization">Next.js 15</button>
+          <button class="bento-tag" data-desc="GSAP 3, ScrollTrigger & Lenis 120FPS GPU hardware accelerated motion">GSAP Motion</button>
+          <button class="bento-tag" data-desc="TypeScript strict types, clean modular architecture & scalability">TypeScript</button>
+          <button class="bento-tag" data-desc="Tailwind CSS v4 & custom design tokens for luxury aesthetics">Tailwind v4</button>
+          <button class="bento-tag" data-desc="Figma tokens, design systems, autolayout & pixel-perfect specs">Figma UI</button>
+          <button class="bento-tag" data-desc="Node.js & Express RESTful APIs, Mongoose, WebSockets">Node.js</button>
+          <button class="bento-tag" data-desc="Cinematic 4K color grading, DaVinci Resolve & narrative storytelling">DaVinci Video</button>
+        </div>
+
+        <div class="bento-hud-banner" id="bentoHudBanner">
+          <span class="bhb-prefix">SPEC:</span>
+          <span class="bhb-text" id="bentoHudText">React 19 Server Components, Actions & modern concurrent hooks</span>
+        </div>
+
+        <span class="bento-corner tl"></span>
+        <span class="bento-corner tr"></span>
+        <span class="bento-corner bl"></span>
+        <span class="bento-corner br"></span>
+      </div>
+
+    </div>
+
+    <!-- Scroll & Index Indicators -->
     <div class="hero-scroll reveal-item">
       <div class="scroll-bar"></div>
       <span>SCROLL</span>
@@ -265,6 +301,70 @@
     <div class="hero-index">01 / 05</div>
     <div class="section-number-bg" aria-hidden="true">01</div>
   </section>
+
+  <!-- ── RECRUITER QUICK DOSSIER MODAL ───────────────────────── -->
+  <div class="dossier-modal-overlay" id="dossierModalOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="dossierTitle">
+    <div class="dossier-modal-panel">
+      <div class="dossier-header">
+        <div class="dh-status">
+          <span class="dh-dot"></span>
+          <span class="dh-label">CANDIDATE DOSSIER // VERIFIED PROFILE</span>
+        </div>
+        <button class="dossier-close-btn" id="dossierCloseBtn" aria-label="Close Dossier">✕</button>
+      </div>
+
+      <div class="dossier-body">
+        <div class="dossier-profile-card">
+          <div class="dpc-avatar">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&q=80" alt="Winter Portrait">
+          </div>
+          <div class="dpc-info">
+            <h3 id="dossierTitle" class="dpc-name">Winter</h3>
+            <p class="dpc-role">Creative Director &amp; Senior Creative Technologist</p>
+            <div class="dpc-badges">
+              <span class="dpc-badge">3+ Years Exp</span>
+              <span class="dpc-badge">120 FPS Motion</span>
+              <span class="dpc-badge">Full-Stack React</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dossier-grid">
+          <div class="dg-block">
+            <span class="dgb-title">AVAILABILITY</span>
+            <p class="dgb-val text-green">Immediate (Full-Time or Select Contracts)</p>
+          </div>
+          <div class="dg-block">
+            <span class="dgb-title">LOCATION / TIMEZONE</span>
+            <p class="dgb-val">Nellore, India (UTC+5:30) · Global Remote</p>
+          </div>
+          <div class="dg-block">
+            <span class="dgb-title">CORE DISCIPLINES</span>
+            <p class="dgb-val">Creative Direction · React/Next.js · GSAP Motion · UI Systems</p>
+          </div>
+          <div class="dg-block">
+            <span class="dgb-title">NOTICE PERIOD</span>
+            <p class="dgb-val">0 Days (Ready to deploy)</p>
+          </div>
+        </div>
+
+        <div class="dossier-actions">
+          <a href="./assets/Winter_CV.pdf" download="Winter_Resume_2025.pdf" class="dossier-btn primary" id="dossierDownloadBtn">
+            <span>📄 Download Official CV / Resume</span>
+            <span class="btn-arr">↓</span>
+          </a>
+          <div class="dossier-contact-row">
+            <a href="mailto:saikrishnam966@gmail.com?subject=Opportunity%20Discussion%20-%20Winter%20Portfolio" class="dossier-btn outline">
+              <span>✉ Email Directly</span>
+            </a>
+            <a href="https://wa.me/917997973038?text=Hi%20Winter,%20I%20reviewed%20your%20dossier%20and%20would%20love%20to%20connect" target="_blank" rel="noopener noreferrer" class="dossier-btn whatsapp">
+              <span>💬 WhatsApp Intro</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ── 2. ABOUT SECTION ───────────────────────────────────── -->
   <section class="section about-section" id="about">

@@ -88,7 +88,7 @@
     });
 
     // Hover interactive elements
-    document.querySelectorAll('a, button, .skill, .service-card, .work-card, .work-feat, .expertise-item, .hero-frequency-ribbon, .hero-period, .dmode-tab').forEach((el) => {
+    document.querySelectorAll('a, button, .skill, .service-card, .work-card, .work-feat, .expertise-item, .hero-frequency-ribbon, .hero-period, .dmode-tab, .bento-tag, .bento-dossier-btn, .bqc-btn, .br-play-btn, .bento-card-reel, .dossier-btn, .dossier-close-btn').forEach((el) => {
       const isView = el.hasAttribute('data-cursor');
       const customLabel = el.getAttribute('data-cursor') || 'VIEW';
       const isResume = el.classList.contains('nav-resume');
@@ -308,217 +308,223 @@
     });
   })();
 
-  /* ── 9. HERO COMMAND CENTER & HOLOGRAPHIC DISCIPLINE ENGINE ─ */
-  (function initHeroCommandCenter() {
-    const stack = document.getElementById('cardStack');
-    const expertiseItems = document.querySelectorAll('.expertise-item');
-    const modeTabs = document.querySelectorAll('.dmode-tab');
-    const decoRings = document.getElementById('decoRings');
-    const decoOrbit = document.getElementById('decoOrbit');
+  /* ── 9. CONCEPT 3: SPATIAL BENTO CONSOLE & RECRUITER DOSSIER ─ */
+  (function initSpatialBentoConsole() {
+    const bentoReelCard = document.getElementById('bentoReelCard');
+    const bentoPlayBtn = document.getElementById('bentoPlayBtn');
+    const bentoPlayIcon = document.getElementById('bentoPlayIcon');
+    const bentoPlayText = document.getElementById('bentoPlayText');
+    const bentoWaveBox = document.getElementById('bentoWaveBox');
+    const bentoClock = document.getElementById('bentoClock');
+    const bentoCopyEmailBtn = document.getElementById('bentoCopyEmailBtn');
+    const bentoTags = document.querySelectorAll('.bento-tag');
+    const bentoHudText = document.getElementById('bentoHudText');
     const heroPeriod = document.getElementById('heroPeriod');
-    const freqRibbon = document.querySelector('.hero-frequency-ribbon');
+    const freqRibbon = document.getElementById('bentoFreqPill') || document.querySelector('.hero-frequency-ribbon');
     const freqVal = document.getElementById('freqVal');
     const freqBars = document.getElementById('freqBars');
 
-    if (!stack) return;
+    // Recruiter Dossier Modal Elements
+    const dossierTriggerBtn = document.getElementById('dossierTriggerBtn');
+    const dossierModalOverlay = document.getElementById('dossierModalOverlay');
+    const dossierCloseBtn = document.getElementById('dossierCloseBtn');
 
-    const cards = Array.from(stack.querySelectorAll('.stack-card'));
-    let currentDiscipline = 0;
-    const disciplineFreqs = ['432Hz', '528Hz', '852Hz'];
-    const extraFreqs = ['432Hz', '528Hz', '639Hz', '741Hz', '852Hz', '963Hz'];
-    let extraFreqIdx = 0;
-
-    // Initial entrance animation
-    gsap.from(cards, {
-      y: -35,
-      opacity: 0,
-      duration: 1,
-      ease: 'expo.out',
-      stagger: 0.12,
-      delay: 0.5
-    });
-
-    if (decoRings) {
-      gsap.from(decoRings, {
-        scale: 0.7,
+    // Entrance Animation for Bento Cards
+    const bentoCards = document.querySelectorAll('.bento-card');
+    if (bentoCards.length > 0) {
+      gsap.from(bentoCards, {
+        y: 28,
         opacity: 0,
-        duration: 1.2,
-        ease: 'expo.out',
-        delay: 0.3
+        duration: 0.85,
+        ease: 'power3.out',
+        stagger: 0.1,
+        delay: 0.35
       });
     }
 
-    if (decoOrbit) {
-      gsap.from(decoOrbit, {
-        scale: 0.8,
-        opacity: 0,
-        duration: 1.4,
-        ease: 'expo.out',
-        delay: 0.4
-      });
-    }
+    // 1. Showreel Play / Pause Toggle
+    let isReelPlaying = false;
+    function toggleReel(e) {
+      if (e) e.stopPropagation();
+      isReelPlaying = !isReelPlaying;
 
-    // Synchronized discipline switcher
-    function setDiscipline(idx) {
-      currentDiscipline = ((idx % 3) + 3) % 3;
+      if (bentoPlayBtn) {
+        bentoPlayBtn.classList.toggle('playing', isReelPlaying);
+        if (bentoPlayIcon) bentoPlayIcon.textContent = isReelPlaying ? '⏸' : '▶';
+        if (bentoPlayText) bentoPlayText.textContent = isReelPlaying ? 'PAUSE' : 'PLAY REEL';
+      }
 
-      // 1. Sync expertise items on the left
-      expertiseItems.forEach((item) => {
-        const d = Number(item.getAttribute('data-discipline'));
-        item.classList.toggle('active', d === currentDiscipline);
-      });
+      if (bentoWaveBox) {
+        bentoWaveBox.classList.toggle('playing', isReelPlaying);
+      }
 
-      // 2. Sync tactical tabs above deck
-      modeTabs.forEach((tab) => {
-        const d = Number(tab.getAttribute('data-discipline'));
-        tab.classList.toggle('active', d === currentDiscipline);
-      });
-
-      // 3. Arrange 3D card deck
-      cards.forEach((card) => {
-        const cardIdx = Number(card.getAttribute('data-index'));
-        card.classList.remove('card-front', 'card-mid', 'card-back');
-
-        if (cardIdx === currentDiscipline) {
-          card.classList.add('card-front');
-          gsap.fromTo(card,
-            { scale: 0.94 },
-            { scale: 1, duration: 0.45, ease: 'back.out(1.8)' }
+      if (isReelPlaying) {
+        showToast('CINEMATIC SHOWREEL // PLAYING 120FPS PRORES STREAM', '#22d3ee');
+        if (bentoReelCard) {
+          gsap.fromTo(bentoReelCard,
+            { scale: 0.985 },
+            { scale: 1, duration: 0.35, ease: 'back.out(2)' }
           );
-        } else if (cardIdx === (currentDiscipline + 1) % 3) {
-          card.classList.add('card-mid');
-        } else {
-          card.classList.add('card-back');
+        }
+      } else {
+        showToast('CINEMATIC SHOWREEL // PAUSED', 'rgba(255,255,255,0.7)');
+      }
+    }
+
+    if (bentoPlayBtn) {
+      bentoPlayBtn.addEventListener('click', toggleReel);
+    }
+    if (bentoReelCard) {
+      bentoReelCard.addEventListener('click', (e) => {
+        // Only trigger if clicked on the card itself, not on sub-links or buttons
+        if (e.target.closest('a') || e.target.closest('.br-play-btn')) return;
+        toggleReel();
+      });
+    }
+
+    // 2. Verified Impact Matrix - Counter Animations
+    const counterNums = document.querySelectorAll('.counter-num');
+    counterNums.forEach((el) => {
+      const targetVal = parseFloat(el.getAttribute('data-target')) || 0;
+      const isDecimal = String(targetVal).includes('.');
+
+      const obj = { val: 0 };
+      gsap.to(obj, {
+        val: targetVal,
+        duration: 1.8,
+        ease: 'power2.out',
+        delay: 0.5,
+        onUpdate: () => {
+          el.textContent = isDecimal ? obj.val.toFixed(1) : Math.round(obj.val);
         }
       });
+    });
 
-      // 4. Update frequency indicator
-      if (freqVal && disciplineFreqs[currentDiscipline]) {
-        freqVal.textContent = disciplineFreqs[currentDiscipline];
-      }
+    // 3. Real-time Clock (IST / UTC+5:30)
+    function updateClock() {
+      if (!bentoClock) return;
+      const now = new Date();
+      // UTC + 5.5 hours for IST
+      const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+      const istTime = new Date(utc + (3600000 * 5.5));
+
+      const h = String(istTime.getHours()).padStart(2, '0');
+      const m = String(istTime.getMinutes()).padStart(2, '0');
+      const s = String(istTime.getSeconds()).padStart(2, '0');
+      bentoClock.textContent = `${h}:${m}:${s}`;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // 4. One-Click Copy Email
+    if (bentoCopyEmailBtn) {
+      bentoCopyEmailBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const email = 'saikrishnam966@gmail.com';
+        navigator.clipboard.writeText(email).then(() => {
+          showToast(`COPIED TO CLIPBOARD // ${email}`, '#10b981');
+          gsap.fromTo(bentoCopyEmailBtn,
+            { scale: 0.92 },
+            { scale: 1, duration: 0.35, ease: 'back.out(2)' }
+          );
+        }).catch(() => {
+          window.location.href = `mailto:${email}`;
+        });
+      });
     }
 
-    // Discipline items interaction (hover & click)
-    expertiseItems.forEach((item) => {
-      const d = Number(item.getAttribute('data-discipline'));
+    // 5. Tech Stack Interactive Radar
+    bentoTags.forEach((tag) => {
+      const desc = tag.getAttribute('data-desc');
 
-      item.addEventListener('click', (e) => {
-        e.preventDefault();
-        setDiscipline(d);
-      });
+      function activateTag() {
+        bentoTags.forEach((t) => t.classList.remove('active'));
+        tag.classList.add('active');
 
-      if (!isTouchDevice) {
-        item.addEventListener('mouseenter', () => {
-          setDiscipline(d);
-        });
+        if (bentoHudText && desc) {
+          gsap.to(bentoHudText, {
+            opacity: 0,
+            duration: 0.12,
+            onComplete: () => {
+              bentoHudText.textContent = desc;
+              gsap.to(bentoHudText, { opacity: 1, duration: 0.25 });
+            }
+          });
+        }
       }
+
+      tag.addEventListener('mouseenter', activateTag);
+      tag.addEventListener('click', activateTag);
     });
 
-    // Tactical mode tabs interaction
-    modeTabs.forEach((tab) => {
-      tab.addEventListener('click', (e) => {
-        e.preventDefault();
-        const d = Number(tab.getAttribute('data-discipline'));
-        setDiscipline(d);
-      });
-    });
-
-    // 3D Card Stack click / tap to cycle
-    stack.addEventListener('click', (e) => {
-      // Don't intercept clicks on inner links if user specifically clicked a link
-      setDiscipline(currentDiscipline + 1);
-
-      if (isTouchDevice) {
-        stack.classList.add('fanned');
-        setTimeout(() => stack.classList.remove('fanned'), 1200);
-      }
-    });
-
-    // 3D Gyroscopic tilt on front card for desktop
+    // 6. 3D Gyroscopic Tilt on Bento Cards (Desktop)
     if (!isTouchDevice) {
-      let isHovered = false;
+      bentoCards.forEach((card) => {
+        let isHovered = false;
 
-      stack.addEventListener('mouseenter', () => { isHovered = true; });
-      stack.addEventListener('mouseleave', () => {
-        isHovered = false;
-        const front = stack.querySelector('.stack-card.card-front');
-        if (front) {
-          gsap.to(front, {
+        card.addEventListener('mouseenter', () => { isHovered = true; });
+        card.addEventListener('mouseleave', () => {
+          isHovered = false;
+          gsap.to(card, {
             rotationX: 0,
             rotationY: 0,
-            ease: 'elastic.out(1, 0.4)',
-            duration: 0.8
+            y: 0,
+            duration: 0.65,
+            ease: 'elastic.out(1, 0.45)'
           });
-        }
-      });
-
-      stack.addEventListener('mousemove', (e) => {
-        if (!isHovered) return;
-        const front = stack.querySelector('.stack-card.card-front');
-        if (!front) return;
-
-        const rect = front.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const dx = (e.clientX - cx) / (rect.width / 2);
-        const dy = (e.clientY - cy) / (rect.height / 2);
-
-        gsap.to(front, {
-          rotationX: -dy * 9,
-          rotationY: dx * 9,
-          transformPerspective: 950,
-          ease: 'power2.out',
-          duration: 0.35
         });
-      }, { passive: true });
-    }
 
-    // Tactical Radar Rings & Orbit recoil shockwave game
-    if (decoRings) {
-      decoRings.addEventListener('click', (e) => {
-        // Shockwave recoil on rings
-        gsap.fromTo(decoRings,
-          { scale: 0.92 },
-          { scale: 1.08, duration: 0.14, ease: 'power2.out', yoyo: true, repeat: 1 }
-        );
+        card.addEventListener('mousemove', (e) => {
+          if (!isHovered) return;
+          const rect = card.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2;
+          const dx = (e.clientX - cx) / (rect.width / 2);
+          const dy = (e.clientY - cy) / (rect.height / 2);
 
-        // Center reticle burst
-        const plus = decoRings.querySelector('.deco-plus');
-        if (plus) {
-          gsap.to(plus, {
-            rotation: '+=180',
-            scale: 1.6,
-            duration: 0.45,
-            ease: 'back.out(2)',
-            onComplete: () => gsap.to(plus, { scale: 1, duration: 0.3 })
+          gsap.to(card, {
+            rotationX: -dy * 5,
+            rotationY: dx * 5,
+            transformPerspective: 1000,
+            duration: 0.25,
+            ease: 'power2.out'
           });
-        }
-
-        // Kinetic text orbit speed boost
-        if (decoOrbit) {
-          gsap.to(decoOrbit, {
-            rotation: '+=90',
-            duration: 0.85,
-            ease: 'expo.out'
-          });
-        }
-
-        // Radar ripple shockwave
-        const r = document.createElement('div');
-        r.className = 'c-ripple';
-        r.style.left = e.clientX + 'px';
-        r.style.top = e.clientY + 'px';
-        document.body.appendChild(r);
-        gsap.fromTo(r,
-          { scale: 0.6, opacity: 0.95 },
-          { scale: 5.5, opacity: 0, duration: 0.65, ease: 'expo.out', onComplete: () => r.remove() }
-        );
-
-        showToast(`RADAR RECOIL // FREQ LOCKED: ${freqVal ? freqVal.textContent : '432Hz'}`, '#22d3ee');
+        }, { passive: true });
       });
     }
 
-    // Interactive Period Beacon
+    // 7. Recruiter Quick Dossier Modal Logic
+    function openDossier() {
+      if (!dossierModalOverlay) return;
+      dossierModalOverlay.classList.add('open');
+      dossierModalOverlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      showToast('RECRUITER DOSSIER // LOADED', '#22d3ee');
+    }
+
+    function closeDossier() {
+      if (!dossierModalOverlay) return;
+      dossierModalOverlay.classList.remove('open');
+      dossierModalOverlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    if (dossierTriggerBtn) dossierTriggerBtn.addEventListener('click', openDossier);
+    if (dossierCloseBtn) dossierCloseBtn.addEventListener('click', closeDossier);
+
+    if (dossierModalOverlay) {
+      dossierModalOverlay.addEventListener('click', (e) => {
+        if (e.target === dossierModalOverlay) closeDossier();
+      });
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && dossierModalOverlay && dossierModalOverlay.classList.contains('open')) {
+        closeDossier();
+      }
+    });
+
+    // 8. Period Beacon Interaction
     if (heroPeriod) {
       heroPeriod.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -537,11 +543,14 @@
           { scale: 4, opacity: 0, duration: 0.5, ease: 'expo.out', onComplete: () => r.remove() }
         );
 
-        showToast('SYS.BEACON: Winter Studio Core Online · 120 FPS Active', '#c084fc');
+        showToast('SYS.BEACON: Winter Bento Console Core Online · 120 FPS Active', '#c084fc');
       });
     }
 
-    // Equalizer Frequency Ribbon Modulation
+    // 9. Equalizer Frequency Ribbon Modulation
+    const extraFreqs = ['432Hz', '528Hz', '639Hz', '741Hz', '852Hz', '963Hz'];
+    let extraFreqIdx = 0;
+
     if (freqRibbon) {
       freqRibbon.addEventListener('click', () => {
         extraFreqIdx = (extraFreqIdx + 1) % extraFreqs.length;
